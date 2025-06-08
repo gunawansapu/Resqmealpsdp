@@ -1,0 +1,19 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+@import "tailwindcss";
+
+/* Font dan reset dasar */
+:root {
+  font-family: system-ui, sans-serif;
+}
+
+/* Masukkan body styling ke dalam layer base agar @apply valid */
+@layer base {
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    @apply bg-white text-black;
+  }
+}
+
