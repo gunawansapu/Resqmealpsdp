@@ -19,22 +19,17 @@ import Pembayaran from "./pages/Pembayaran";
 import GabungMitra from "./pages/GabungMitra";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // WAJIB agar toast-nya bisa tampil
+import { AuthProvider } from './components/AuthContext';
+
 
 
 
 function App() {
   return (
+    <AuthProvider>
   <Router>
       <ScrollToTop /> {/* Tambahan penting */}
       <div className="flex flex-col min-h-screen">
-        <ToastContainer position="top-center" // ⬅️ Notifikasi muncul di tengah atas
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover />
         <Navbar />
         <main className="flex-grow pt-16">
           <Routes>
@@ -58,6 +53,10 @@ function App() {
         <Footer />
       </div>
     </Router>
+    <ToastContainer
+        position="top-center"
+        autoClose={3000}/>
+    </AuthProvider>
   );
 }
 

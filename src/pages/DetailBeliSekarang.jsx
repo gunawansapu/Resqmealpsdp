@@ -39,7 +39,7 @@ const DetailBeliSekarang = () => {
 
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    toast.success(`${product.name} (x${quantity}) ditambahkan ke keranjang!`, { delay: 100 });
+    toast.success(`${product.name} (x${quantity}) ditambahkan ke keranjang!`,);
   };
 
   const handleAddToFavorite = () => {
@@ -49,9 +49,9 @@ const DetailBeliSekarang = () => {
       const updatedFav = [...favorites, product];
       setFavorites(updatedFav);
       localStorage.setItem('favorites', JSON.stringify(updatedFav));
-      toast.success(`${product.name} ditambahkan ke favorit!`, { delay: 100 });
+      toast.success(`${product.name} ditambahkan ke favorit!`,);
     } else {
-      toast.info(`${product.name} sudah ada di favorit!`, { delay: 100 });
+      toast.info(`${product.name} sudah ada di favorit!`,);
     }
   };
 

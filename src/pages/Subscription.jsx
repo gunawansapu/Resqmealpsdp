@@ -219,22 +219,6 @@ const Subscription = () => {
           <span>{submitting ? 'Memproses...' : 'Berlangganan Sekarang'}</span>
         </button>
       </form>
-
-     <ToastContainer
-  position="top-center"
-  autoClose={3000}
-  hideProgressBar={false}
-  newestOnTop={true}
-  closeOnClick
-  rtl={false}
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  closeButton={true}
-  theme="light"
-/>
-
-
     </section>
   );
 };

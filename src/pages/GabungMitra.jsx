@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
 const inputFocusVariants = {
@@ -89,7 +89,6 @@ const GabungMitra = () => {
       initial="hidden"
       animate="visible"
     >
-      <Toaster position="top-center" />
       <h1 className="text-4xl font-extrabold mb-8 text-center text-green-700 drop-shadow-md">
         Gabung Mitra <span className="text-green-900">ResQMeal</span>
       </h1>

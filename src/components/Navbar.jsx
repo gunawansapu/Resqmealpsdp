@@ -11,48 +11,23 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify"; // import toast only (NOT ToastContainer here)
+import { useAuth } from "../components/AuthContext"; // Gunakan Context
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState({});
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
 
+  const { isLoggedIn, login, logout, register } = useAuth(); // Pakai context
+
   const toggleMenu = () => setMenuOpen((prev) => !prev);
-
-  const toggleDropdown = (menuName) => {
-    setDropdownOpen((prev) => ({
-      ...prev,
-      [menuName]: !prev[menuName],
-    }));
-  };
-
-  const toggleMobileDropdown = (index) => {
+  const toggleDropdown = (menuName) =>
+    setDropdownOpen((prev) => ({ ...prev, [menuName]: !prev[menuName] }));
+  const toggleMobileDropdown = (index) =>
     setOpenSubmenuIndex(openSubmenuIndex === index ? null : index);
-  };
-
   const toggleAccountDropdown = () =>
     setAccountDropdownOpen((prev) => !prev);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    toast.success("Berhasil login!");
-    setMenuOpen(false);
-  };
-
-  const handleRegister = () => {
-    setIsLoggedIn(true);
-    toast.success("Registrasi berhasil!");
-    setMenuOpen(false);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    toast.success("Berhasil logout");
-    setAccountDropdownOpen(false);
-  };
 
   const navItems = [
     { name: "Beranda", to: "/" },
@@ -144,14 +119,14 @@ const Navbar = () => {
 
           <Link
             to="/favorit"
-            className="flex items-center text-gray-700 hover:text-red-600 transition-colors duration-200"
+            className="flex items-center text-gray-700 hover:text-red-600"
             title="Favorit"
           >
             <Heart size={20} />
           </Link>
           <Link
             to="/keranjang"
-            className="flex items-center text-gray-700 hover:text-green-600 transition-colors duration-200"
+            className="flex items-center text-gray-700 hover:text-green-600"
             title="Keranjang"
           >
             <ShoppingCart size={20} />
@@ -160,13 +135,13 @@ const Navbar = () => {
           {!isLoggedIn ? (
             <>
               <button
-                onClick={handleLogin}
+                onClick={login}
                 className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded"
               >
                 Login
               </button>
               <button
-                onClick={handleRegister}
+                onClick={register}
                 className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 rounded"
               >
                 Register
@@ -190,7 +165,10 @@ const Navbar = () => {
                     <Settings size={16} /> Pengaturan Akun
                   </Link>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      logout();
+                      setAccountDropdownOpen(false);
+                    }}
                     className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-gray-100"
                   >
                     <LogOut size={16} /> Logout
@@ -304,7 +282,7 @@ const Navbar = () => {
                 <div className="pt-4 flex flex-col space-y-2">
                   <button
                     onClick={() => {
-                      handleLogin();
+                      login();
                       setMenuOpen(false);
                     }}
                     className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
@@ -313,7 +291,7 @@ const Navbar = () => {
                   </button>
                   <button
                     onClick={() => {
-                      handleRegister();
+                      register();
                       setMenuOpen(false);
                     }}
                     className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
@@ -332,7 +310,7 @@ const Navbar = () => {
                   </Link>
                   <button
                     onClick={() => {
-                      handleLogout();
+                      logout();
                       setMenuOpen(false);
                     }}
                     className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded"
