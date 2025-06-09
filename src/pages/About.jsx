@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
@@ -34,9 +34,15 @@ const team = [
 ];
 
 export default function About() {
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
+    AOS.refresh();
+    setIsMounted(true);
   }, []);
+
+  if (!isMounted) return null; // Hindari flash awal
 
   return (
     <section className="bg-white py-20 px-6 md:px-12">
@@ -50,6 +56,7 @@ export default function About() {
             src="https://raw.githubusercontent.com/gunawansapu/gunawan/main/resqmeal.jpg"
             alt="Tentang ResQMeal"
             className="rounded-2xl shadow-2xl w-full max-w-md"
+            loading="lazy"
           />
         </div>
 
@@ -98,6 +105,7 @@ export default function About() {
                   src={person.image}
                   alt={person.name}
                   className="w-24 h-24 mx-auto rounded-full object-cover mb-4 border-4 border-green-200"
+                  loading="lazy"
                 />
                 <h4 className="text-lg font-semibold text-gray-800">{person.name}</h4>
                 <p className="text-sm text-green-700">{person.title}</p>
