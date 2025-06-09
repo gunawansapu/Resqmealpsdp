@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import productsData from '../data/productsData';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DetailBeliSekarang = () => {
   const { id } = useParams();
@@ -66,11 +67,10 @@ const DetailBeliSekarang = () => {
       imageUrl: product.imageUrl,
     };
 
-    // Hapus checkoutItems dari keranjang agar tidak tumpang tindih
     localStorage.removeItem('checkoutItems');
     localStorage.setItem('checkoutItem', JSON.stringify(checkoutItem));
 
-    toast.success('Mengalihkan ke halaman pembayaran...', { delay: 100 });
+    toast.success('Mengalihkan ke halaman pembayaran...');
     setTimeout(() => {
       navigate('/pembayaran');
     }, 1000);
@@ -99,7 +99,6 @@ const DetailBeliSekarang = () => {
         <button
           onClick={decrement}
           className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded transition"
-          aria-label="Kurangi jumlah"
         >
           −
         </button>
@@ -107,7 +106,6 @@ const DetailBeliSekarang = () => {
         <button
           onClick={increment}
           className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded transition"
-          aria-label="Tambah jumlah"
         >
           +
         </button>
@@ -137,6 +135,17 @@ const DetailBeliSekarang = () => {
           Favorit
         </button>
       </div>
+       <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
     </div>
   );
 };

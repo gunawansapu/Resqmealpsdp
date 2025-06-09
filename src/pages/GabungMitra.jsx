@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { motion } from "framer-motion";
+import "react-toastify/dist/ReactToastify.css";
 
 const inputFocusVariants = {
   focused: {
@@ -158,6 +159,19 @@ const GabungMitra = () => {
           Daftar Sekarang
         </motion.button>
       </form>
+
+      {/* ToastContainer hanya di sini */}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </motion.div>
   );
 };

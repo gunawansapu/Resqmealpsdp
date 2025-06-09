@@ -184,6 +184,17 @@ const Subscription = () => {
               <p className="mt-2 text-red-600 text-sm">{errors.packageId}</p>
             )}
           </fieldset>
+           <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         </div>
 
         {/* Submit Button */}
