@@ -39,7 +39,7 @@ const DetailBeliSekarang = () => {
 
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    toast.success(`${product.name} (x${quantity}) ditambahkan ke keranjang!`,);
+    toast.success(`${product.name} (x${quantity}) ditambahkan ke keranjang!`);
   };
 
   const handleAddToFavorite = () => {
@@ -49,17 +49,27 @@ const DetailBeliSekarang = () => {
       const updatedFav = [...favorites, product];
       setFavorites(updatedFav);
       localStorage.setItem('favorites', JSON.stringify(updatedFav));
-      toast.success(`${product.name} ditambahkan ke favorit!`,);
+      toast.success(`${product.name} ditambahkan ke favorit!`);
     } else {
-      toast.info(`${product.name} sudah ada di favorit!`,);
+      toast.info(`${product.name} sudah ada di favorit!`);
     }
   };
 
   const handleBuyNow = () => {
     if (!product) return;
 
-    const checkoutItem = { ...product, quantity };
+    const checkoutItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: quantity,
+      imageUrl: product.imageUrl,
+    };
+
+    // Hapus checkoutItems dari keranjang agar tidak tumpang tindih
+    localStorage.removeItem('checkoutItems');
     localStorage.setItem('checkoutItem', JSON.stringify(checkoutItem));
+
     toast.success('Mengalihkan ke halaman pembayaran...', { delay: 100 });
     setTimeout(() => {
       navigate('/pembayaran');

@@ -27,11 +27,9 @@ const Keranjang = () => {
     const totalPrice = cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
 
     // Simpan data pembayaran ke localStorage
-    localStorage.setItem('totalPembayaran', totalPrice);
-    localStorage.setItem('checkoutItems', JSON.stringify(cart));
-
-    // Arahkan ke halaman pembayaran (tanpa hapus dulu)
-    navigate('/pembayaran');
+    localStorage.removeItem('checkoutItem'); // buang data dari halaman detail
+  localStorage.setItem('checkoutItems', JSON.stringify(cart));
+  navigate('/pembayaran');
   };
 
   if (cart.length === 0) {

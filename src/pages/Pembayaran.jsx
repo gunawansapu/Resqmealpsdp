@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const Pembayaran = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
-  const [checkoutId, setCheckoutId] = useState(null); // ✅ untuk redirect ke detail produk
+  const [checkoutId, setCheckoutId] = useState(null);
   const [form, setForm] = useState({
     nama: '',
     alamat: '',
@@ -15,23 +14,20 @@ const Pembayaran = () => {
   });
 
   useEffect(() => {
-    const checkoutItem = JSON.parse(localStorage.getItem('checkoutItem'));
-    if (checkoutItem && checkoutItem.id) {
-      setItems([checkoutItem]);
-      setCheckoutId(checkoutItem.id); // ✅ simpan ID untuk redirect
-    } else {
-      const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-      if (storedCart.length === 0) {
-        toast.error('Keranjang kosong, silakan tambah produk terlebih dahulu.', {
-          position: 'top-center',
-          autoClose: 2000,
-          onClose: () => navigate('/keranjang'),
-        });
-        return;
-      }
-      setItems(storedCart);
-    }
-  }, [navigate]);
+  const singleItem = JSON.parse(localStorage.getItem('checkoutItem'));
+  const multipleItems = JSON.parse(localStorage.getItem('checkoutItems'));
+
+  if (singleItem && !multipleItems) {
+    setItems([singleItem]);
+    setCheckoutId(singleItem.id); // jika perlu ID-nya
+  } else if (multipleItems && multipleItems.length > 0) {
+    setItems(multipleItems);
+  } else {
+    toast.error("Tidak ada item yang bisa dibayar.");
+    navigate("/marketplace");
+  }
+}, []);
+
 
   const totalPrice = items.reduce(
     (acc, item) => acc + item.price * (item.quantity || 1),
@@ -55,13 +51,13 @@ const Pembayaran = () => {
     toast.success(
       `Pembayaran berhasil!\nTotal bayar: Rp${totalPrice.toLocaleString()}\nTerima kasih, ${form.nama}!`,
       {
-        position: 'top-center', // ✅ notifikasi muncul di tengah atas
+        position: 'top-center',
         autoClose: 3000,
         onClose: () => {
           localStorage.removeItem('cart');
           localStorage.removeItem('checkoutItem');
+          localStorage.removeItem('checkoutItems');
           setItems([]);
-          // ✅ redirect sesuai sumber pembelian
           if (checkoutId) {
             navigate(`/produk/${checkoutId}`);
           } else {
@@ -74,7 +70,6 @@ const Pembayaran = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-8 mt-24 mb-24 bg-white shadow rounded-lg">
-      <ToastContainer />
       <h2 className="text-2xl font-bold mb-6">Pembayaran</h2>
 
       <h3 className="text-lg font-semibold mb-4">Ringkasan Pesanan:</h3>

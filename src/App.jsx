@@ -49,13 +49,13 @@ function App() {
             <Route path="/pembayaran" element={<Pembayaran />} />
             <Route path="/gabungmitra" element={<GabungMitra />} />
           </Routes>
+          <ToastContainer
+        position="top-center"
+        autoClose={3000}/>
         </main>
         <Footer />
       </div>
     </Router>
-    <ToastContainer
-        position="top-center"
-        autoClose={3000}/>
     </AuthProvider>
   );
 }
