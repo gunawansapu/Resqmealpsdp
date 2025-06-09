@@ -25,6 +25,8 @@ const DetailBeliSekarang = () => {
   const totalPrice = product ? product.price * quantity : 0;
 
   const handleAddToCart = () => {
+    if (!product) return;
+
     const existingIndex = cart.findIndex((item) => item.id === product.id);
     let updatedCart = [];
 
@@ -37,23 +39,28 @@ const DetailBeliSekarang = () => {
 
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    toast.success(`${product.name} (x${quantity}) ditambahkan ke keranjang!`);
+    toast.success(`${product.name} (x${quantity}) ditambahkan ke keranjang!`, { delay: 100 });
   };
 
   const handleAddToFavorite = () => {
+    if (!product) return;
+
     if (!favorites.find((item) => item.id === product.id)) {
       const updatedFav = [...favorites, product];
       setFavorites(updatedFav);
       localStorage.setItem('favorites', JSON.stringify(updatedFav));
-      toast.success(`${product.name} ditambahkan ke favorit!`);
+      toast.success(`${product.name} ditambahkan ke favorit!`, { delay: 100 });
     } else {
-      toast.info(`${product.name} sudah ada di favorit!`);
+      toast.info(`${product.name} sudah ada di favorit!`, { delay: 100 });
     }
   };
 
   const handleBuyNow = () => {
+    if (!product) return;
+
     const checkoutItem = { ...product, quantity };
     localStorage.setItem('checkoutItem', JSON.stringify(checkoutItem));
+    toast.success('Mengalihkan ke halaman pembayaran...', { delay: 100 });
     setTimeout(() => {
       navigate('/pembayaran');
     }, 1000);
