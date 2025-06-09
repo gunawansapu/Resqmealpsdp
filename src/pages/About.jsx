@@ -34,18 +34,20 @@ const team = [
 ];
 
 export default function About() {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
     AOS.refresh();
-    setIsMounted(true);
+    setTimeout(() => setIsReady(true), 150); // Delay supaya layout stabil dulu
   }, []);
 
-  if (!isMounted) return null; // Hindari flash awal
-
   return (
-    <section className="bg-white py-20 px-6 md:px-12">
+    <section
+      className={`bg-white py-20 px-6 md:px-12 transition-all duration-500 ease-in-out ${
+        isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+      }`}
+    >
       {/* Tentang */}
       <div
         className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20"
@@ -55,7 +57,7 @@ export default function About() {
           <img
             src="https://raw.githubusercontent.com/gunawansapu/gunawan/main/resqmeal.jpg"
             alt="Tentang ResQMeal"
-            className="rounded-2xl shadow-2xl w-full max-w-md"
+            className="rounded-2xl shadow-2xl w-full max-w-md aspect-[4/3] object-cover"
             loading="lazy"
           />
         </div>
@@ -105,7 +107,6 @@ export default function About() {
                   src={person.image}
                   alt={person.name}
                   className="w-24 h-24 mx-auto rounded-full object-cover mb-4 border-4 border-green-200"
-                  loading="lazy"
                 />
                 <h4 className="text-lg font-semibold text-gray-800">{person.name}</h4>
                 <p className="text-sm text-green-700">{person.title}</p>
