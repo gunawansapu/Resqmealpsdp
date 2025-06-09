@@ -84,7 +84,7 @@ const GabungMitra = () => {
 
   return (
     <motion.div 
-      className="max-w-3xl mx-auto mt-20 p-10 bg-gradient-to-r from-green-100 to-green-50 rounded-xl shadow-xl"
+      className="max-w-3xl mx-auto mt-0 p-10 bg-gradient-to-r from-green-100 to-green-50 rounded-xl shadow-xl"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
