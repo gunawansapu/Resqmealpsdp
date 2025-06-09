@@ -1,4 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -17,45 +21,49 @@ import Keranjang from "./pages/Keranjang";
 import Favorit from "./pages/Favorit";
 import Pembayaran from "./pages/Pembayaran";
 import GabungMitra from "./pages/GabungMitra";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // WAJIB agar toast-nya bisa tampil
-import { AuthProvider } from './components/AuthContext';
 
-
-
+import { AuthProvider } from "./components/AuthContext";
 
 function App() {
   return (
     <AuthProvider>
-  <Router>
-      <ScrollToTop /> {/* Tambahan penting */}
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow pt-16">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/tentang" element={<About />} />
-            <Route path="/marketplace" element={<Marketplace />} />
-            <Route path="/produk/:id" element={<DetailBeliSekarang />} />
-            <Route path="/donasi" element={<Donation />} />
-            <Route path="/langganan" element={<Subscription />} />
-            <Route path="/supplychain" element={<SupplyChain />} />
-            <Route path="/targetmarket" element={<TargetMarket />} />
-            <Route path="/uniquevalue" element={<UniqueValue />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/favorit" element={<Favorit />} />
-            <Route path="/keranjang" element={<Keranjang />} />
-            <Route path="/pembayaran" element={<Pembayaran />} />
-            <Route path="/gabungmitra" element={<GabungMitra />} />
-          </Routes>
-          <ToastContainer
-        position="top-center"
-        autoClose={3000}/>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+      <Router>
+        <ScrollToTop />
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <main className="flex-grow pt-16">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/tentang" element={<About />} />
+              <Route path="/marketplace" element={<Marketplace />} />
+              <Route path="/produk/:id" element={<DetailBeliSekarang />} />
+              <Route path="/donasi" element={<Donation />} />
+              <Route path="/langganan" element={<Subscription />} />
+              <Route path="/supplychain" element={<SupplyChain />} />
+              <Route path="/targetmarket" element={<TargetMarket />} />
+              <Route path="/uniquevalue" element={<UniqueValue />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/favorit" element={<Favorit />} />
+              <Route path="/keranjang" element={<Keranjang />} />
+              <Route path="/pembayaran" element={<Pembayaran />} />
+              <Route path="/gabungmitra" element={<GabungMitra />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </Router>
     </AuthProvider>
   );
 }
