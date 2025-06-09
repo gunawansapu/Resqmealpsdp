@@ -6,8 +6,33 @@ import 'aos/dist/aos.css';
 import 'swiper/css';
 
 const team = [
-  // (data tim tetap sama)
+  {
+    name: 'Yuwanandra ',
+    title: 'CEO & Founder',
+    image: 'https://raw.githubusercontent.com/gunawansapu/gunawan/main/yuwan.jpg',
+  },
+  {
+    name: 'Gerry',
+    title: 'Chief Operating Officer',
+    image: 'https://i.pravatar.cc/150?img=2',
+  },
+  {
+    name: 'Ariq',
+    title: 'Chief Financial Officer',
+    image: 'https://i.pravatar.cc/150?img=3',
+  },
+  {
+    name: 'Gunawan',
+    title: 'Chief Technology Officer',
+    image: 'https://raw.githubusercontent.com/gunawansapu/gunawan/main/gunawan.jpg',
+  },
+  {
+    name: 'Ardit',
+    title: 'Head of Warehouse',
+    image: 'https://raw.githubusercontent.com/gunawansapu/gunawan/main/ardit.jpg',
+  },
 ];
+
 
 export default function About() {
   useEffect(() => {
