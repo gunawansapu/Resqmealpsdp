@@ -17,6 +17,9 @@ import Keranjang from "./pages/Keranjang";
 import Favorit from "./pages/Favorit";
 import Pembayaran from "./pages/Pembayaran";
 import GabungMitra from "./pages/GabungMitra";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // WAJIB agar toast-nya bisa tampil
+
 
 
 function App() {
@@ -46,6 +49,7 @@ function App() {
         </main>
         <Footer />
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </Router>
   );
 }
