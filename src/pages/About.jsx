@@ -19,7 +19,7 @@ const team = [
   {
     name: 'Ariq',
     title: 'Chief Financial Officer',
-    image: 'https://i.pravatar.cc/150?img=3',
+    image: 'https://raw.githubusercontent.com/gunawansapu/gunawan/main/arqi.jpg',
   },
   {
     name: 'Gunawan',
