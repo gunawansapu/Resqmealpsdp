@@ -27,6 +27,14 @@ function App() {
   <Router>
       <ScrollToTop /> {/* Tambahan penting */}
       <div className="flex flex-col min-h-screen">
+        <ToastContainer position="top-center" // ⬅️ Notifikasi muncul di tengah atas
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover />
         <Navbar />
         <main className="flex-grow pt-16">
           <Routes>
@@ -49,14 +57,6 @@ function App() {
         </main>
         <Footer />
       </div>
-      <ToastContainer position="top-center" // ⬅️ Notifikasi muncul di tengah atas
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover />
     </Router>
   );
 }

@@ -11,11 +11,10 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-toastify"; // import toast only (NOT ToastContainer here)
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  // dropdownOpen sekarang objek untuk kontrol dropdown desktop per menu
   const [dropdownOpen, setDropdownOpen] = useState({});
   const [openSubmenuIndex, setOpenSubmenuIndex] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,7 +22,6 @@ const Navbar = () => {
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
-  // toggleDropdown terima parameter nama menu
   const toggleDropdown = (menuName) => {
     setDropdownOpen((prev) => ({
       ...prev,
@@ -80,7 +78,6 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-green-200 via-yellow-100 to-yellow-200 shadow-md h-16 flex items-center">
-      <Toaster position="top-center" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center w-full">
         <div className="text-xl font-bold text-green-700">
           <Link to="/">ResQMeal</Link>
@@ -145,7 +142,6 @@ const Navbar = () => {
             )
           )}
 
-          {/* Favorit dan Keranjang diletakkan di kanan, sebelum login/avatar */}
           <Link
             to="/favorit"
             className="flex items-center text-gray-700 hover:text-red-600 transition-colors duration-200"
@@ -205,13 +201,9 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Toggle + Avatar */}
+        {/* Mobile Menu Toggle */}
         <div className="md:hidden flex items-center space-x-3">
-          <button
-            onClick={toggleMenu}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="text-gray-800"
-          >
+          <button onClick={toggleMenu} className="text-gray-800">
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           {isLoggedIn && (
@@ -291,21 +283,18 @@ const Navbar = () => {
                 )
               )}
 
-              {/* Favorit & Keranjang mobile */}
               <div className="flex space-x-6 pt-2">
                 <Link
                   to="/favorit"
-                  className="flex items-center text-gray-700 hover:text-red-600 transition-colors duration-200"
+                  className="flex items-center text-gray-700 hover:text-red-600"
                   onClick={() => setMenuOpen(false)}
-                  title="Favorit"
                 >
                   <Heart size={20} />
                 </Link>
                 <Link
                   to="/keranjang"
-                  className="flex items-center text-gray-700 hover:text-green-600 transition-colors duration-200"
+                  className="flex items-center text-gray-700 hover:text-green-600"
                   onClick={() => setMenuOpen(false)}
-                  title="Keranjang"
                 >
                   <ShoppingCart size={20} />
                 </Link>
