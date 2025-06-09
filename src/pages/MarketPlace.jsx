@@ -12,10 +12,10 @@ const promoImages = [
 const productsData = [
   {
     id: 1,
-    name: 'Box Makanan Sehat',
+    name: 'Roti Bakkery',
     category: 'Makanan',
     price: 12000,
-    description: 'Makanan sehat siap saji dengan bahan organik.',
+    description: 'Bakkery Murah Meriah.',
     imageUrl: 'https://awsimages.detik.net.id/community/media/visual/2024/08/30/artisan-bakery-3_43.jpeg?w=650',
   },
   {
