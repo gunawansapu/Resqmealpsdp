@@ -2,58 +2,61 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaLeaf, FaClock, FaHeart, FaStar } from 'react-icons/fa';
 
 const uniqueValues = [
-  {
-    id: 1,
-    icon: <FaLeaf size={36} className="text-green-600" />,
-    title: 'Bahan Alami & Sehat',
-    shortDesc:
-      'Kami hanya menggunakan bahan segar dan alami tanpa bahan pengawet.',
-    longDesc:
-      'ResQMeal berkomitmen menggunakan bahan-bahan segar dan alami yang dipilih secara ketat. Semua produk bebas dari bahan pengawet dan zat kimia berbahaya, memastikan setiap hidangan sehat dan aman dikonsumsi setiap hari.',
-  },
-  {
-    id: 2,
-    icon: <FaClock size={36} className="text-indigo-600" />,
-    title: 'Pemesanan Cepat & Mudah',
-    shortDesc:
-      'Sistem pemesanan online yang praktis, cocok untuk gaya hidup sibuk.',
-    longDesc:
-      'Kami menyediakan platform pemesanan online yang intuitif dan responsif, memungkinkan pelanggan melakukan pemesanan hanya dalam beberapa klik. Waktu pengolahan dan pengiriman yang cepat menjadikan ResQMeal pilihan tepat untuk yang mengutamakan kecepatan dan kemudahan.',
-  },
-  {
-    id: 3,
-    icon: <FaHeart size={36} className="text-red-600" />,
-    title: 'Menu Variatif & Lezat',
-    shortDesc:
-      'Beragam pilihan menu yang selalu diperbarui dengan cita rasa tinggi.',
-    longDesc:
-      'ResQMeal menawarkan menu yang sangat variatif, mulai dari hidangan tradisional hingga modern. Semua menu dikembangkan oleh chef berpengalaman dengan fokus pada cita rasa yang memanjakan lidah dan nilai gizi yang optimal.',
-  },
-  {
-    id: 4,
-    icon: <FaStar size={36} className="text-yellow-600" />,
-    title: 'Harga Terjangkau & Bersahabat',
-    shortDesc:
-      'Kami menyediakan makanan berkualitas dengan harga yang tetap ramah di kantong.',
-    longDesc:
-      'Dengan model bisnis efisien dan supply chain yang optimal, ResQMeal bisa menawarkan harga yang kompetitif tanpa mengorbankan kualitas. Kami percaya makanan sehat dan lezat harus bisa dinikmati oleh semua kalangan.',
-  },
+ {
+  id: 1,
+  icon: <FaLeaf size={36} className="text-green-600" />,
+  title: 'Bahan Alami & Diselamatkan',
+  shortDesc:
+    'Menggunakan bahan makanan layak konsumsi yang diselamatkan dari limbah.',
+  longDesc:
+    'ResQMeal mengutamakan pemanfaatan bahan makanan alami yang masih layak konsumsi dari mitra seperti restoran dan supermarket. Dengan pendekatan ini, kami tidak hanya menghadirkan makanan sehat, tapi juga turut mengurangi food waste secara signifikan.',
+},
+{
+  id: 2,
+  icon: <FaClock size={36} className="text-indigo-600" />,
+  title: 'Pemesanan Mudah & Efisien',
+  shortDesc:
+    'Proses pemesanan cepat dengan sistem digital yang efisien dan transparan.',
+  longDesc:
+    'Melalui platform digital ResQMeal, pelanggan dapat memesan makanan dengan cepat dan praktis. Sistem kami dirancang untuk mempermudah pelacakan status pesanan serta memastikan makanan sampai tepat waktu tanpa mengorbankan kualitas.',
+},
+{
+  id: 3,
+  icon: <FaHeart size={36} className="text-red-600" />,
+  title: 'Menu Enak & Bernilai Sosial',
+  shortDesc:
+    'Hidangan Enak dan Layak dengan misi sosial yang kuat.',
+  longDesc:
+    'Setiap menu di ResQMeal tidak hanya dibuat untuk memanjakan lidah, tapi juga sarat makna. Dengan menyelamatkan makanan yang masih layak, setiap pesanan Anda turut membantu misi sosial dalam mengurangi limbah dan mendukung ketahanan pangan.',
+},
+{
+  id: 4,
+  icon: <FaStar size={36} className="text-yellow-600" />,
+  title: 'Harga Bersahabat & Berdampak',
+  shortDesc:
+    'Harga terjangkau untuk makanan sehat dan berkelanjutan.',
+  longDesc:
+    'Dengan memanfaatkan bahan dari food rescue, ResQMeal mampu menyediakan makanan bernutrisi dengan harga yang lebih terjangkau. Setiap pembelian bukan hanya menghemat pengeluaran, tetapi juga berkontribusi langsung pada solusi lingkungan dan sosial.',
+},
+
 ];
 
 const UniqueValue = () => {
   const [visibleItems, setVisibleItems] = useState([]);
-  const [modalData, setModalData] = useState(null);
   const refs = useRef([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const index = Number(entry.target.getAttribute('data-index'));
           if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute('data-index'));
             if (!visibleItems.includes(index)) {
               setVisibleItems((prev) => [...prev, index]);
             }
+          } else {
+            // Optional: remove when out of view if you want animation to reset
+            // setVisibleItems((prev) => prev.filter((i) => i !== index));
           }
         });
       },
@@ -71,7 +74,7 @@ const UniqueValue = () => {
     };
   }, [visibleItems]);
 
-  // Modal close handler (focus return)
+  const [modalData, setModalData] = useState(null);
   const closeModal = () => setModalData(null);
 
   return (
@@ -90,10 +93,10 @@ const UniqueValue = () => {
               key={id}
               ref={(el) => (refs.current[index] = el)}
               data-index={index}
-              className={`p-8 rounded-xl shadow-lg bg-gray-50 transform transition duration-700 ease-in-out
+              className={`p-8 rounded-xl shadow-lg bg-gray-50 transform transition duration-700 ease-in-out cursor-pointer
                 ${
                   visibleItems.includes(index)
-                    ? 'opacity-100 translate-y-0'
+                    ? 'opacity-100 translate-y-0 animate-floating'
                     : 'opacity-0 translate-y-10'
                 }`}
               tabIndex={0}
@@ -157,6 +160,21 @@ const UniqueValue = () => {
           </div>
         </div>
       )}
+
+      {/* Custom CSS for floating animation */}
+      <style jsx>{`
+        @keyframes floating {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        .animate-floating {
+          animation: floating 3s ease-in-out infinite;
+        }
+      `}</style>
     </>
   );
 };

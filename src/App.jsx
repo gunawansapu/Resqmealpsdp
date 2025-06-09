@@ -12,7 +12,11 @@ import TargetMarket from './components/TargetMarket';
 import UniqueValue from './components/UniqueValue';
 import Services from './components/Services';
 import ScrollToTop from "./components/ScrollToTop";
-
+import DetailBeliSekarang from "./pages/DetailBeliSekarang";
+import Keranjang from "./pages/Keranjang";
+import Favorit from "./pages/Favorit";
+import Pembayaran from "./pages/Pembayaran";
+import GabungMitra from "./pages/GabungMitra";
 
 
 function App() {
@@ -26,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/tentang" element={<About />} />
             <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/produk/:id" element={<DetailBeliSekarang />} />
             <Route path="/donasi" element={<Donation />} />
             <Route path="/langganan" element={<Subscription />} />
             <Route path="/supplychain" element={<SupplyChain />} />
@@ -33,6 +38,10 @@ function App() {
             <Route path="/uniquevalue" element={<UniqueValue />} />
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/favorit" element={<Favorit />} />
+            <Route path="/keranjang" element={<Keranjang />} />
+            <Route path="/pembayaran" element={<Pembayaran />} />
+            <Route path="/gabungmitra" element={<GabungMitra />} />
           </Routes>
         </main>
         <Footer />

@@ -1,11 +1,20 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+const promoImages = [
+  'https://marketplace.canva.com/EAGZb85YAWo/1/0/1600w/canva-spanduk-warung-makan-mie-ayam-modern-meriah-merah-kuning-8aUypq8ddes.jpg',
+  'https://static1.squarespace.com/static/5a5dbe4632601eb31977f947/5a5dbe9653450ab899649d1f/62fb321d8e7ca70722113aa3/1660630864601/Diskon-Merdeka_Landscape.jpg?format=1500w',
+  'https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/02/16/stylo-januari-2023-landscape-20230216022638.jpg',
+  'https://mykohotel.com/wp-content/uploads/2024/10/DH-Bolu__landscape-792x446.jpg'
+];
 
 const productsData = [
   {
     id: 1,
     name: 'Box Makanan Sehat',
     category: 'Makanan',
-    price: 50000,
+    price: 12000,
     description: 'Makanan sehat siap saji dengan bahan organik.',
     imageUrl: 'https://awsimages.detik.net.id/community/media/visual/2024/08/30/artisan-bakery-3_43.jpeg?w=650',
   },
@@ -13,7 +22,7 @@ const productsData = [
     id: 2,
     name: 'Minuman Detoks',
     category: 'Minuman',
-    price: 30000,
+    price: 5000,
     description: 'Minuman detoks alami untuk kesehatan tubuh.',
     imageUrl: 'https://kehamilansehat.com/wp-content/uploads/2025/03/Buka-Puasa-dengan-Jus-Buah-Hati-Hati-Bisa-Bikin-Mom-Menyesal.jpg',
   },
@@ -21,7 +30,7 @@ const productsData = [
     id: 3,
     name: 'Snack Sehat',
     category: 'Makanan',
-    price: 20000,
+    price: 15000,
     description: 'Snack ringan tanpa bahan pengawet.',
     imageUrl: 'https://main.mobile.doss.co.id/storage/uploads/2023/10/photo-1546069901-ba9599a7e63c.webp',
   },
@@ -29,17 +38,17 @@ const productsData = [
     id: 4,
     name: 'Vitamin C Booster',
     category: 'Suplemen',
-    price: 75000,
+    price: 10000,
     description: 'Suplemen vitamin C untuk meningkatkan imun.',
-    imageUrl: 'https://source.unsplash.com/200x150/?vitamin',
+    imageUrl: 'https://www.uni-health.com/pub/media/catalog/product/cache/bac7b768ee0296ed2137f1171d0548da/s/i/single_product_hf0036.png',
   },
   {
     id: 5,
-    name: 'Smoothie Bowl',
+    name: 'Nasi Goreng',
     category: 'Makanan',
-    price: 60000,
-    description: 'Smoothie bowl segar dengan topping buah.',
-    imageUrl: 'https://source.unsplash.com/200x150/?smoothie,bowl',
+    price: 10000,
+    description: 'Nasi Goreng Hotel Enak Bintang Lima dengan Harga Murah',
+    imageUrl: 'https://www.dapurkobe.co.id/wp-content/uploads/nasi-goreng-pattaya.jpg',
   },
   {
     id: 6,
@@ -47,19 +56,73 @@ const productsData = [
     category: 'Minuman',
     price: 15000,
     description: 'Air mineral berkualitas tinggi dengan pH seimbang.',
-    imageUrl: 'https://source.unsplash.com/200x150/?water',
+    imageUrl: 'https://static.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/p1/294/2025/02/20/amdk-equil-1235144172.jpg',
   },
-  // Tambah produk lain jika perlu
 ];
 
 const categories = ['Semua', 'Makanan', 'Minuman', 'Suplemen'];
 const ITEMS_PER_PAGE = 3;
+
+const SliderPromo = () => {
+  const [current, setCurrent] = useState(0);
+  const total = promoImages.length;
+
+  const nextSlide = () => setCurrent((prev) => (prev + 1) % total);
+  const prevSlide = () => setCurrent((prev) => (prev - 1 + total) % total);
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="relative w-full max-w-6xl mx-auto rounded-xl overflow-hidden shadow-lg mb-8">
+      <img
+        src={promoImages[current]}
+        alt={`Promo ${current + 1}`}
+        className="w-full h-48 md:h-64 object-cover transition-transform duration-700 ease-in-out"
+        loading="lazy"
+      />
+
+      {/* Tombol panah */}
+      <button
+        onClick={prevSlide}
+        className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow"
+        aria-label="Sebelumnya"
+      >
+        <ChevronLeft />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow"
+        aria-label="Berikutnya"
+      >
+        <ChevronRight />
+      </button>
+
+      {/* Dot navigasi */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        {promoImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrent(index)}
+            className={`w-3 h-3 rounded-full ${
+              current === index ? 'bg-white' : 'bg-white/50'
+            }`}
+            aria-label={`Pilih promo ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const MarketPlace = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [sortPrice, setSortPrice] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
   const filteredProducts = useMemo(() => {
     let filtered = productsData;
@@ -111,9 +174,12 @@ const MarketPlace = () => {
       className="max-w-6xl mx-auto p-8 bg-white rounded-lg shadow-md"
       aria-label="Marketplace ResQMeal"
     >
-      <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">
-        Marketplace ResQMeal
+      <h2 className="text-4xl font-extrabold mb-8 text-center text-green-700 drop-shadow-md">
+        Marketplace <span className="text-green-900">ResQMeal</span>
       </h2>
+
+      {/* Slider Promo */}
+      <SliderPromo />
 
       {/* Controls */}
       <div className="flex flex-col md:flex-row md:justify-between mb-6 gap-4">
@@ -164,7 +230,6 @@ const MarketPlace = () => {
               className="border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow flex flex-col group"
               aria-label={`Produk ${name} dengan harga Rp${price.toLocaleString()}`}
             >
-              {/* Gambar dengan efek hover zoom dan shadow */}
               <div className="overflow-hidden">
                 <img
                   src={imageUrl}
@@ -184,17 +249,15 @@ const MarketPlace = () => {
                     Rp{price.toLocaleString()}
                   </span>
 
-                  {/* Tombol Beli dengan animasi 3D hover */}
                   <button
                     type="button"
-                    onClick={() => alert(`Berhasil membeli: ${name}`)}
+                    onClick={() => navigate(`/produk/${id}`)}
                     aria-label={`Beli produk ${name}`}
                     className="bg-indigo-600 text-white px-5 py-2 rounded-md shadow-md
                       transform transition-transform duration-300 ease-in-out
                       hover:bg-indigo-700 hover:shadow-xl
                       active:translate-y-1
-                      focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1
-                      "
+                      focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1"
                   >
                     Beli Sekarang
                   </button>
@@ -209,50 +272,41 @@ const MarketPlace = () => {
       {totalPages > 1 && (
         <nav
           aria-label="Navigasi halaman produk"
-          className="flex justify-center mt-8 space-x-3"
+          className="flex justify-center items-center gap-4 mt-8 select-none"
         >
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`px-3 py-1 rounded-md border ${
-              currentPage === 1
-                ? 'text-gray-400 border-gray-300 cursor-not-allowed'
-                : 'text-indigo-600 border-indigo-600 hover:bg-indigo-100'
-            }`}
             aria-label="Halaman sebelumnya"
+            className="px-3 py-1 rounded-md border border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-100"
           >
-            &lt;
+            &lt; Prev
           </button>
 
-          {[...Array(totalPages)].map((_, i) => {
-            const pageNum = i + 1;
-            return (
-              <button
-                key={pageNum}
-                onClick={() => handlePageChange(pageNum)}
-                aria-current={currentPage === pageNum ? 'page' : undefined}
-                className={`px-3 py-1 rounded-md border ${
-                  currentPage === pageNum
-                    ? 'bg-indigo-600 text-white border-indigo-600'
-                    : 'text-indigo-600 border-indigo-600 hover:bg-indigo-100'
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i + 1)}
+              aria-current={currentPage === i + 1 ? 'page' : undefined}
+              aria-label={`Halaman ${i + 1}`}
+              className={`px-3 py-1 rounded-md border border-indigo-400
+                ${
+                  currentPage === i + 1
+                    ? 'bg-indigo-600 text-white'
+                    : 'hover:bg-indigo-100'
                 }`}
-              >
-                {pageNum}
-              </button>
-            );
-          })}
+            >
+              {i + 1}
+            </button>
+          ))}
 
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`px-3 py-1 rounded-md border ${
-              currentPage === totalPages
-                ? 'text-gray-400 border-gray-300 cursor-not-allowed'
-                : 'text-indigo-600 border-indigo-600 hover:bg-indigo-100'
-            }`}
             aria-label="Halaman berikutnya"
+            className="px-3 py-1 rounded-md border border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-100"
           >
-            &gt;
+            Next &gt;
           </button>
         </nav>
       )}

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
-import VanillaTilt from 'vanilla-tilt';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'aos/dist/aos.css';
@@ -8,43 +7,35 @@ import 'swiper/css';
 
 const team = [
   {
-    name: 'Muhammad Yuwanandra ',
+    name: 'Yuwanandra ',
     title: 'CEO & Founder',
     image: 'https://raw.githubusercontent.com/gunawansapu/gunawan/main/yuwan.jpg',
   },
   {
-    name: 'Rina Kartika',
-    title: 'Chief Technology Officer',
+    name: 'Gerry',
+    title: 'Chief Operating Officer',
     image: 'https://i.pravatar.cc/150?img=2',
   },
   {
-    name: 'Budi Santoso',
-    title: 'Chief Operating Officer',
+    name: 'Ariq',
+    title: 'Chief Financial Officer',
     image: 'https://i.pravatar.cc/150?img=3',
   },
   {
-    name: 'Sari Wulandari',
-    title: 'Head of Partnership',
-    image: 'https://i.pravatar.cc/150?img=4',
+    name: 'Gunawan',
+    title: 'Chief Technology Officer',
+    image: 'https://raw.githubusercontent.com/gunawansapu/gunawan/main/gunawan.jpg',
   },
   {
-    name: 'Dimas Aryo',
-    title: 'Head of Operations',
-    image: 'https://i.pravatar.cc/150?img=5',
+    name: 'Ardit',
+    title: 'Head of Warehouse',
+    image: 'https://raw.githubusercontent.com/gunawansapu/gunawan/main/ardit.jpg',
   },
 ];
 
 export default function About() {
   useEffect(() => {
     AOS.init({ duration: 1000 });
-
-    VanillaTilt.init(document.querySelectorAll('.tilt-card'), {
-      max: 25,
-      speed: 800,
-      glare: true,
-      'max-glare': 0.3,
-      scale: 1.05,
-    });
   }, []);
 
   return (
@@ -62,8 +53,10 @@ export default function About() {
           />
         </div>
 
-        <div data-aos="fade-left">
-          <h2 className="text-4xl font-extrabold text-green-700 mb-4">Tentang ResQMeal</h2>
+        <div data-aos="fade-left" className="text-center md:text-left">
+          <h2 className="text-4xl font-extrabold text-green-700 mb-4">
+            Tentang <span className="text-green-900">ResQMeal</span>
+          </h2>
           <p className="text-gray-700 text-lg mb-4 leading-relaxed">
             ResQMeal adalah platform penyelamatan makanan yang bertujuan untuk mengurangi pemborosan makanan dari restoran dan UMKM, serta menyalurkannya secara aman kepada masyarakat yang membutuhkan.
           </p>
@@ -100,7 +93,7 @@ export default function About() {
         >
           {team.map((person, index) => (
             <SwiperSlide key={index}>
-              <div className="tilt-card bg-white rounded-xl text-center shadow-lg hover:shadow-2xl p-6 transition-transform duration-500">
+              <div className="bg-white rounded-xl text-center shadow-lg hover:shadow-2xl p-6 transition duration-300 hover:scale-105 active:scale-100">
                 <img
                   src={person.image}
                   alt={person.name}
