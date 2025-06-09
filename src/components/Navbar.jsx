@@ -228,120 +228,138 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              key="mobile-menu"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden absolute top-16 left-0 w-full bg-white border-t shadow-lg overflow-hidden z-50"
-            >
-              <div className="flex flex-col py-4 px-6 space-y-3">
-                {navItems.map((item, i) =>
-                  item.submenu ? (
-                    <div key={i}>
-                      <button
-                        onClick={() =>
-                          setOpenSubmenuIndex((prev) =>
-                            prev === i ? null : i
-                          )
-                        }
-                        className="flex items-center justify-between w-full text-gray-700 hover:text-green-600 text-lg font-medium"
-                      >
-                        {item.name}
-                        {openSubmenuIndex === i ? (
-                          <ChevronUp className="ml-1 w-5 h-5" />
-                        ) : (
-                          <ChevronDown className="ml-1 w-5 h-5" />
-                        )}
-                      </button>
-                      {openSubmenuIndex === i && (
-                        <div className="pl-4 mt-1 flex flex-col space-y-2">
-                          <Link
-                            to={item.to}
-                            className="text-base font-semibold"
-                            onClick={() => {
-                              setMenuOpen(false);
-                              setOpenSubmenuIndex(null);
-                            }}
-                          >
-                            {item.name}
-                          </Link>
-                          {item.submenu.map((sub, j) => (
-                            <Link
-                              key={j}
-                              to={sub.to}
-                              className="text-gray-700 text-sm"
-                              onClick={() => {
-                                setMenuOpen(false);
-                                setOpenSubmenuIndex(null);
-                              }}
-                            >
-                              {sub.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      key={i}
-                      to={item.to}
-                      className="text-gray-700 hover:text-green-600 text-lg font-medium"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
+     {/* Mobile Menu */}
+<AnimatePresence>
+  {menuOpen && (
+    <motion.div
+      key="mobile-menu"
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="md:hidden absolute top-16 left-0 w-full bg-white border-t shadow-lg overflow-hidden z-50"
+    >
+      <div className="flex flex-col py-4 px-6 space-y-3">
+        {navItems.map((item, i) =>
+          item.submenu ? (
+            <div key={i}>
+              <button
+                onClick={() =>
+                  setOpenSubmenuIndex((prev) =>
+                    prev === i ? null : i
                   )
-                )}
-
-                {!isLoggedIn ? (
-                  <>
-                    <button
-                      onClick={async () => {
-                        await handleLogin();
-                      }}
-                      className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded"
-                    >
-                      Login
-                    </button>
-                    <button
-                      onClick={async () => {
-                        await handleRegister();
-                      }}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 rounded"
-                    >
-                      Register
-                    </button>
-                  </>
+                }
+                className="flex items-center justify-between w-full text-gray-700 hover:text-green-600 text-lg font-medium"
+              >
+                {item.name}
+                {openSubmenuIndex === i ? (
+                  <ChevronUp className="ml-1 w-5 h-5" />
                 ) : (
-                  <>
-                    <Link
-                      to="/akun"
-                      className="text-gray-700 hover:text-green-600 text-lg font-medium"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Pengaturan Akun
-                    </Link>
-                    <button
-                      onClick={async () => {
-                        await handleLogout();
-                      }}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded"
-                    >
-                      Logout
-                    </button>
-                  </>
+                  <ChevronDown className="ml-1 w-5 h-5" />
                 )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+              </button>
+              {openSubmenuIndex === i && (
+                <div className="pl-4 mt-1 flex flex-col space-y-2">
+                  <Link
+                    to={item.to}
+                    className="text-base font-semibold"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setOpenSubmenuIndex(null);
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.submenu.map((sub, j) => (
+                    <Link
+                      key={j}
+                      to={sub.to}
+                      className="text-gray-700 text-sm"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setOpenSubmenuIndex(null);
+                      }}
+                    >
+                      {sub.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              key={i}
+              to={item.to}
+              className="text-gray-700 hover:text-green-600 text-lg font-medium"
+              onClick={() => setMenuOpen(false)}
+            >
+              {item.name}
+            </Link>
+          )
+        )}
 
+        {/* Tambahkan Favorit dan Keranjang di menu mobile */}
+        <Link
+          to="/favorit"
+          className="flex items-center space-x-2 text-gray-700 hover:text-red-600 text-lg font-medium"
+          onClick={() => setMenuOpen(false)}
+        >
+          <Heart size={20} />
+          <span>Favorit</span>
+        </Link>
+        <Link
+          to="/keranjang"
+          className="flex items-center space-x-2 text-gray-700 hover:text-green-600 text-lg font-medium"
+          onClick={() => setMenuOpen(false)}
+        >
+          <ShoppingCart size={20} />
+          <span>Keranjang</span>
+        </Link>
+
+        {!isLoggedIn ? (
+          <>
+            <button
+              onClick={async () => {
+                await handleLogin();
+              }}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded"
+            >
+              Login
+            </button>
+            <button
+              onClick={async () => {
+                await handleRegister();
+              }}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-1 rounded"
+            >
+              Register
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/akun"
+              className="text-gray-700 hover:text-green-600 text-lg font-medium"
+              onClick={() => setMenuOpen(false)}
+            >
+              Pengaturan Akun
+            </Link>
+            <button
+              onClick={async () => {
+                await handleLogout();
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded"
+            >
+              Logout
+            </button>
+          </>
+        )}
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+</nav>
       <ToastContainer
         position="top-center"
         autoClose={2000}
