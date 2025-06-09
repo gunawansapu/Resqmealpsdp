@@ -49,7 +49,14 @@ function App() {
         </main>
         <Footer />
       </div>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-center" // ⬅️ Notifikasi muncul di tengah atas
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover />
     </Router>
   );
 }
