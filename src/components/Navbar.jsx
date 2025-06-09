@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useAuth } from "../components/AuthContext"; // Gunakan Context
+import { useAuth } from "./AuthContext"; // Gunakan Context
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
