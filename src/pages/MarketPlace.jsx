@@ -50,7 +50,7 @@ const productsData = [
     category: 'Makanan',
     price: 10000,
     description: 'Nasi Goreng Hotel Enak Bintang Lima dengan Harga Murah',
-    imageUrl: 'https://www.dapurkobe.co.id/wp-content/uploads/nasi-goreng-pattaya.jpg',
+    imageUrl: 'https://aslimasako.com/storage/post/new-title-29022024-065154.jpg',
   },
   {
     id: 6,
