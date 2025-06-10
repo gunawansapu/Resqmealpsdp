@@ -21,7 +21,7 @@ const Pembayaran = () => {
 
     if (singleItem && !multipleItems) {
       setItems([singleItem]);
-      setCheckoutId(singleItem.id); // jika perlu ID-nya
+      setCheckoutId(singleItem.id);
     } else if (multipleItems && multipleItems.length > 0) {
       setItems(multipleItems);
     } else {
@@ -51,7 +51,6 @@ const Pembayaran = () => {
 
     setLoading(true);
 
-    // Simulasi proses pembayaran async, misal API call
     setTimeout(() => {
       toast.success(
         `Pembayaran berhasil!\nTotal bayar: Rp${totalPrice.toLocaleString()}\nTerima kasih, ${form.nama}!`,
@@ -67,7 +66,6 @@ const Pembayaran = () => {
       setItems([]);
       setLoading(false);
 
-      // Navigasi setelah toast selesai autoClose
       setTimeout(() => {
         if (checkoutId) {
           navigate(`/produk/${checkoutId}`);
@@ -81,30 +79,29 @@ const Pembayaran = () => {
   return (
     <>
       <ToastContainer />
-      <div className="max-w-3xl mx-auto p-8 mt-24 mb-24 bg-white shadow rounded-lg">
-        <h2 className="text-2xl font-bold mb-6">Pembayaran</h2>
+      <div className="max-w-4xl mx-auto mt-24 mb-24 p-8 bg-gradient-to-br from-white to-slate-100 rounded-xl shadow-2xl border border-gray-200">
+        <h2 className="text-3xl font-bold text-indigo-700 mb-6 border-b pb-2">Pembayaran</h2>
 
-        <h3 className="text-lg font-semibold mb-4">Ringkasan Pesanan:</h3>
-        <ul className="mb-6 max-h-48 overflow-auto border rounded p-4">
-          {items.map((item) => (
-            <li key={item.id} className="flex justify-between mb-2">
-              <span>
-                {item.name} x {item.quantity || 1}
-              </span>
-              <span>
-                Rp{(item.price * (item.quantity || 1)).toLocaleString()}
-              </span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="text-right font-bold text-xl mb-6">
-          Total Harga: Rp{totalPrice.toLocaleString()}
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-gray-700 mb-4">🛒 Ringkasan Pesanan</h3>
+          <ul className="divide-y divide-gray-200 border rounded-md max-h-60 overflow-y-auto bg-white p-4 shadow-sm">
+            {items.map((item) => (
+              <li key={item.id} className="flex justify-between py-2 text-gray-600 text-sm">
+                <span>{item.name} x {item.quantity || 1}</span>
+                <span className="font-medium text-gray-800">
+                  Rp{(item.price * (item.quantity || 1)).toLocaleString()}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="text-right mt-4 font-bold text-lg text-indigo-800">
+            Total: Rp{totalPrice.toLocaleString()}
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block mb-1 font-semibold" htmlFor="nama">
+            <label htmlFor="nama" className="block text-sm font-semibold text-gray-600 mb-1">
               Nama Lengkap
             </label>
             <input
@@ -113,14 +110,15 @@ const Pembayaran = () => {
               name="nama"
               value={form.nama}
               onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
+              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="Nama lengkap Anda"
               required
               disabled={loading}
             />
           </div>
 
           <div>
-            <label className="block mb-1 font-semibold" htmlFor="alamat">
+            <label htmlFor="alamat" className="block text-sm font-semibold text-gray-600 mb-1">
               Alamat Pengiriman
             </label>
             <textarea
@@ -128,15 +126,16 @@ const Pembayaran = () => {
               name="alamat"
               value={form.alamat}
               onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
               rows={3}
+              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="Alamat lengkap Anda"
               required
               disabled={loading}
             />
           </div>
 
           <div>
-            <label className="block mb-1 font-semibold" htmlFor="telepon">
+            <label htmlFor="telepon" className="block text-sm font-semibold text-gray-600 mb-1">
               Nomor Telepon
             </label>
             <input
@@ -145,17 +144,15 @@ const Pembayaran = () => {
               name="telepon"
               value={form.telepon}
               onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
+              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="08xxxxxxxxxx"
               required
               disabled={loading}
             />
           </div>
 
           <div>
-            <label
-              className="block mb-1 font-semibold"
-              htmlFor="metodePembayaran"
-            >
+            <label htmlFor="metodePembayaran" className="block text-sm font-semibold text-gray-600 mb-1">
               Metode Pembayaran
             </label>
             <select
@@ -163,7 +160,7 @@ const Pembayaran = () => {
               name="metodePembayaran"
               value={form.metodePembayaran}
               onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
+              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
               disabled={loading}
             >
               <option value="transfer">Transfer Bank</option>
@@ -173,14 +170,14 @@ const Pembayaran = () => {
 
           <button
             type="submit"
-            className={`w-full py-3 rounded transition ${
+            className={`w-full py-3 rounded-md font-semibold text-white text-lg tracking-wide transition-all duration-300 shadow-md ${
               loading
                 ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                : 'bg-indigo-600 hover:bg-indigo-700 hover:scale-[1.02]'
             }`}
             disabled={loading}
           >
-            {loading ? 'Memproses...' : 'Konfirmasi Pembayaran'}
+            {loading ? 'Memproses Pembayaran...' : '💸 Konfirmasi Pembayaran'}
           </button>
         </form>
       </div>

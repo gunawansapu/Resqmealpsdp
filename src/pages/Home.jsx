@@ -1,7 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef,} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import CountUp from "react-countup";
+import EarthAnimation from "../assets/bumi.json"; // ganti sesuai path
+import Lottie from "lottie-react";
+import Delivery from "../assets/delivery.json";
+import Donation from "../assets/donation.json";
+import MarketPlace from "../assets/marketplace.json";
+import Langganan from "../assets/Langganan.json";
+import Limbah from "../assets/sustain.json";
+import Eco from "../assets/eco.json";
+import Anim1 from "../assets/global-delivery.json";
+import Anim2 from "../assets/delivery-team.json";
+import Anim3 from "../assets/deliveryman-riding-scooter.json";
+import Anim4 from "../assets/delivery-service.json";
+import { Typewriter } from 'react-simple-typewriter';
 
 // Data slide untuk hero
 const slides = [
@@ -146,6 +159,7 @@ const sectionAnim = {
   },
 };
 
+// Variants motion
 const containerVariants = {
   hidden: {},
   visible: {
@@ -157,9 +171,12 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
 };
-
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
@@ -207,6 +224,7 @@ const handleScrollToProduk = () => {
     el.scrollIntoView({ behavior: 'smooth' });
   }
 };
+
 
 
 
@@ -323,131 +341,180 @@ const handleScrollToProduk = () => {
               />
             ))}
           </div>
-        </section>
+           </section>
 
-    {/* Produk dan Layanan */}
-    <section id="produk-layanan">
-<motion.section
-  className="py-20 bg-gray-50"
-  variants={sectionAnim}
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: false, amount: 0.3 }}
+          {/* Product Layanan*/}
+<section
+  id="produk-layanan"
+  className="relative overflow-hidden bg-gradient-to-b from-white to-green-50 py-20"
 >
   <motion.div
-    className="text-center mb-12"
+    className="text-center mb-16 px-4"
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8 }}
-    viewport={{ once: false }}
+    viewport={{ once: true }}
   >
-    <h2 className="text-3xl font-semibold text-green-800 ">
+    <h2 className="text-4xl font-bold text-green-800">
       Produk dan Layanan Kami
     </h2>
-    <p className="text-gray-600 mt-2">
+    <p className="text-gray-600 mt-3 text-lg">
       Solusi terintegrasi untuk makanan berlebih
     </p>
   </motion.div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-20">
+  <div className="relative z-10 flex flex-col items-center gap-16 px-6 md:px-20">
     {[
       {
-        title: "Food Hub Terintegrasi",
+        title: "🥦 Food Hub Terintegrasi",
         desc: "Pusat sortir & distribusi makanan dari UMKM, restoran, dan supermarket.",
+        animation: EarthAnimation,
       },
       {
-        title: "Marketplace Makanan Sisa",
+        title: "🛒 Marketplace Makanan Sisa",
         desc: "Jual beli makanan layak konsumsi langsung dari mitra terpercaya.",
+        animation: MarketPlace,
       },
       {
-        title: "Pengantaran via Ojek Online",
+        title: "🛵 Pengantaran via Ojek Online",
         desc: "Makanan diantar cepat dan aman ke pelanggan.",
+        animation: Delivery, // Ganti sesuai animasi
       },
       {
-        title: "Opsi Donasi Makanan",
+        title: "❤️ Opsi Donasi Makanan",
         desc: "Bantu sesama dengan menyumbangkan makanan ke komunitas.",
+        animation: Donation, // Ganti sesuai animasi
       },
       {
-        title: "Program Berlangganan",
+        title: "📦 Program Berlangganan",
         desc: "Paket hemat makanan berkualitas untuk pelanggan tetap.",
+        animation: Langganan, // Ganti sesuai animasi
       },
       {
-        title: "Pengolahan Limbah",
+        title: "🌱 Pengolahan Limbah",
         desc: "Makanan tak layak jadi pupuk organik ramah lingkungan.",
+        animation: Limbah, // Ganti sesuai animasi
       },
     ].map((item, i) => (
       <motion.div
         key={i}
-        className="hover:scale-[1.03] transition-transform duration-300"
-        initial={{ opacity: 0, y: 50 }}
+        className="flex flex-col items-center text-center bg-white rounded-2xl shadow-lg px-8 py-10 w-full max-w-2xl hover:shadow-xl transition-shadow duration-300"
+        initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: i * 0.15 }}
-        viewport={{ once: false }}
+        transition={{ duration: 0.6, delay: i * 0.1 }}
+        viewport={{ once: true }}
       >
-        <Card className="rounded-2xl shadow-md bg-white min-h-[180px]">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-semibold text-green-700 mb-2">
-              {item.title}
-            </h3>
-            <p className="text-gray-600 text-sm">{item.desc}</p>
-          </CardContent>
-        </Card>
+        <Lottie animationData={item.animation} loop={true} className="w-40 h-40 mb-6" />
+        <h3 className="text-2xl font-semibold text-green-700">{item.title}</h3>
+        <p className="text-gray-600 mt-2">{item.desc}</p>
       </motion.div>
     ))}
   </div>
-</motion.section>
 </section>
+
 
 {/* Kenapa ResQMeal */}
+{/* Kenapa ResQMeal */}
 <section className="bg-green-100 py-20 px-6 md:px-20">
-  <motion.div
-    className="text-center mb-12"
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: false, amount: 0.3 }}
-    variants={containerVariants}
-  >
-    <motion.h2
-      className="text-3xl font-bold text-green-800"
-      variants={itemVariants}
-    >
-      Kenapa ResQMeal?
-    </motion.h2>
-    <motion.p
-      className="text-gray-700 mt-2 max-w-xl mx-auto"
-      variants={itemVariants}
-    >
-      Kami bukan sekadar aplikasi makanan sisa — kami adalah ekosistem penyelamatan makanan yang efisien, berkelanjutan, dan berdampak sosial.
-    </motion.p>
-  </motion.div>
-
-  <motion.div
-    className="grid md:grid-cols-3 gap-8"
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: false, amount: 0.3 }}
-    variants={containerVariants}
-  >
-    {[
-      "Terintegrasi dengan ojek online",
-      "Zero waste & pemrosesan limbah makanan",
-      "Food hub fisik di tiap kota operasi",
-      "Donasi makanan terverifikasi",
-      "Mitra UMKM dan bisnis lokal",
-      "Berdayakan komunitas & kurir lokal",
-    ].map((feature, i) => (
+      {/* Judul dan deskripsi */}
       <motion.div
-        key={i}
-        className="bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg transition"
-        variants={itemVariants}
+        className="text-center mb-12"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+        variants={containerVariants}
       >
-        <p className="text-green-700 font-medium text-base">{feature}</p>
+        <motion.h2
+          className="text-3xl font-bold text-green-800"
+          variants={itemVariants}
+        >
+          Kenapa ResQMeal? 🌱
+        </motion.h2>
+        <motion.p
+          className="text-gray-700 mt-2 max-w-xl mx-auto"
+          variants={itemVariants}
+        >
+          Kami bukan sekadar aplikasi makanan sisa — kami adalah ekosistem
+          penyelamatan makanan yang efisien, berkelanjutan, dan berdampak sosial.
+        </motion.p>
       </motion.div>
-    ))}
-  </motion.div>
-</section>
+
+      {/* Fitur-fitur */}
+      <motion.div
+        className="grid md:grid-cols-3 gap-8"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+        variants={containerVariants}
+      >
+        {[
+          "Terintegrasi dengan ojek online",
+          "Zero waste & pemrosesan limbah makanan",
+          "Food hub fisik di tiap kota operasi",
+          "Donasi makanan terverifikasi",
+          "Mitra UMKM dan bisnis lokal",
+          "Berdayakan komunitas & kurir lokal",
+        ].map((feature, i) => (
+          <motion.div
+            key={i}
+            className="bg-white rounded-2xl p-6 shadow-sm border hover:shadow-lg transition"
+            variants={itemVariants}
+          >
+            <p className="text-green-700 font-medium text-base">{feature}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Animasi Lottie di bawah */}
+      <div className="mt-16 flex justify-center">
+        <Lottie
+          animationData={Eco}
+          loop
+          autoplay
+          style={{ width: "400px", height: "400px" }}
+        />
+      </div>
+    </section>
+
+{/* Lottie Animasi Horizontal dalam Card 3D + Typewriter */}
+<div className="flex flex-wrap justify-center gap-8 px-4 py-12 bg-white">
+  {[
+    { anim: Anim1, words: ['Pemrosesan Limbah', 'Zero Waste', 'Ramah Lingkungan'] },
+    { anim: Anim2, words: ['Distribusi Makanan', 'Cepat & Efisien', 'Aman Terkirim'] },
+    { anim: Anim3, words: ['UMKM Lokal', 'Peluang Usaha', 'Bisnis Mandiri'] },
+    { anim: Anim4, words: ['Komunitas Sosial', 'Donasi Makanan', 'Kebaikan Bersama'] },
+  ].map((item, i) => (
+    <div
+      key={i}
+      className="relative w-40 sm:w-52 md:w-60 p-1 rounded-2xl group perspective"
+    >
+      <div className="bg-white rounded-2xl shadow-xl transform group-hover:rotate-[1deg] group-hover:scale-[1.03] transition duration-500 ease-out">
+        {/* Border animasi */}
+        <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-green-400 animate-borderPulse pointer-events-none"></div>
+
+        <div className="p-4 flex flex-col items-center">
+          <Lottie animationData={item.anim} loop autoplay className="w-28 sm:w-36 md:w-44" />
+          <p className="mt-4 text-green-700 text-center font-semibold text-sm sm:text-base">
+            <Typewriter
+              words={item.words}
+              loop={0}
+              cursor
+              cursorStyle="|"
+              typeSpeed={60}
+              deleteSpeed={40}
+              delaySpeed={1500}
+            />
+          </p>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+
+
         {/* Map Lokasi */}
-        <section className="py-20 px-6 md:px-20 bg-white">
+        <section className="py-3 px-6 md:px-20 bg-white">
     <motion.section
   className="py-20 px-6 md:px-20 bg-white"
   initial="hidden"

@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const promoImages = [
   'https://marketplace.canva.com/EAGZb85YAWo/1/0/1600w/canva-spanduk-warung-makan-mie-ayam-modern-meriah-merah-kuning-8aUypq8ddes.jpg',
@@ -76,40 +78,25 @@ const SliderPromo = () => {
   }, []);
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto rounded-xl overflow-hidden shadow-lg mb-8">
+    <div className="relative w-full max-w-6xl mx-auto rounded-xl overflow-hidden shadow-lg mb-8" data-aos="zoom-in">
       <img
         src={promoImages[current]}
         alt={`Promo ${current + 1}`}
         className="w-full h-48 md:h-64 object-cover transition-transform duration-700 ease-in-out"
         loading="lazy"
       />
-
-      {/* Tombol panah */}
-      <button
-        onClick={prevSlide}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow"
-        aria-label="Sebelumnya"
-      >
+      <button onClick={prevSlide} className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow">
         <ChevronLeft />
       </button>
-      <button
-        onClick={nextSlide}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow"
-        aria-label="Berikutnya"
-      >
+      <button onClick={nextSlide} className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow">
         <ChevronRight />
       </button>
-
-      {/* Dot navigasi */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
         {promoImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full ${
-              current === index ? 'bg-white' : 'bg-white/50'
-            }`}
-            aria-label={`Pilih promo ${index + 1}`}
+            className={`w-3 h-3 rounded-full ${current === index ? 'bg-white' : 'bg-white/50'}`}
           />
         ))}
       </div>
@@ -124,22 +111,29 @@ const MarketPlace = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    AOS.init({ duration: 700, once: true });
+  }, []);
+
   const filteredProducts = useMemo(() => {
-    let filtered = productsData;
+    let filtered = [...productsData];
 
     if (selectedCategory !== 'Semua') {
       filtered = filtered.filter((p) => p.category === selectedCategory);
     }
+
     if (searchTerm.trim()) {
       filtered = filtered.filter((p) =>
         p.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
+
     if (sortPrice === 'asc') {
-      filtered = [...filtered].sort((a, b) => a.price - b.price);
+      filtered.sort((a, b) => a.price - b.price);
     } else if (sortPrice === 'desc') {
-      filtered = [...filtered].sort((a, b) => b.price - a.price);
+      filtered.sort((a, b) => b.price - a.price);
     }
+
     return filtered;
   }, [selectedCategory, searchTerm, sortPrice]);
 
@@ -149,54 +143,37 @@ const MarketPlace = () => {
     currentPage * ITEMS_PER_PAGE
   );
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  };
-
-  const handleSortChange = (e) => {
-    setSortPrice(e.target.value || null);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const handlePageChange = (newPage) => {
-    if (newPage < 1 || newPage > totalPages) return;
-    setCurrentPage(newPage);
-  };
-
   return (
     <section
       id="marketplace"
       className="max-w-6xl mx-auto p-8 bg-white rounded-lg shadow-md"
-      aria-label="Marketplace ResQMeal"
+      data-aos="fade-up"
     >
       <h2 className="text-4xl font-extrabold mb-8 text-center text-green-700 drop-shadow-md">
         Marketplace <span className="text-green-900">ResQMeal</span>
       </h2>
 
-      {/* Slider Promo */}
       <SliderPromo />
 
-      {/* Controls */}
       <div className="flex flex-col md:flex-row md:justify-between mb-6 gap-4">
         <input
           type="search"
           placeholder="Cari produk..."
           value={searchTerm}
-          onChange={handleSearchChange}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
           className="flex-grow px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          aria-label="Cari produk"
         />
 
         <select
           value={selectedCategory}
-          onChange={(e) => handleCategoryChange(e.target.value)}
+          onChange={(e) => {
+            setSelectedCategory(e.target.value);
+            setCurrentPage(1);
+          }}
           className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          aria-label="Filter kategori produk"
         >
           {categories.map((cat) => (
             <option key={cat} value={cat}>
@@ -207,9 +184,8 @@ const MarketPlace = () => {
 
         <select
           value={sortPrice || ''}
-          onChange={handleSortChange}
+          onChange={(e) => setSortPrice(e.target.value || null)}
           className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          aria-label="Sortir produk berdasarkan harga"
         >
           <option value="">Sortir Harga</option>
           <option value="asc">Harga Terendah</option>
@@ -217,7 +193,6 @@ const MarketPlace = () => {
         </select>
       </div>
 
-      {/* Product List */}
       <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {displayedProducts.length === 0 ? (
           <li className="text-center col-span-full text-gray-600 italic">
@@ -228,17 +203,13 @@ const MarketPlace = () => {
             <li
               key={id}
               className="border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow flex flex-col group"
-              aria-label={`Produk ${name} dengan harga Rp${price.toLocaleString()}`}
+              data-aos="fade-up"
             >
-              <div className="overflow-hidden">
-                <img
-                  src={imageUrl}
-                  alt={name}
-                  loading="lazy"
-                  className="w-full h-40 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:brightness-90"
-                />
-              </div>
-
+              <img
+                src={imageUrl}
+                alt={name}
+                className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-105"
+              />
               <div className="p-4 flex-grow flex flex-col justify-between">
                 <div>
                   <h3 className="text-xl font-semibold mb-2 text-gray-800">{name}</h3>
@@ -248,19 +219,20 @@ const MarketPlace = () => {
                   <span className="text-indigo-700 font-bold text-lg">
                     Rp{price.toLocaleString()}
                   </span>
-
                   <button
-                    type="button"
-                    onClick={() => navigate(`/produk/${id}`)}
-                    aria-label={`Beli produk ${name}`}
-                    className="bg-indigo-600 text-white px-5 py-2 rounded-md shadow-md
-                      transform transition-transform duration-300 ease-in-out
-                      hover:bg-indigo-700 hover:shadow-xl
-                      active:translate-y-1
-                      focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1"
-                  >
-                    Beli Sekarang
-                  </button>
+  type="button"
+  onClick={() => navigate(`/produk/${id}`)}
+  aria-label={`Beli produk ${name}`}
+  className="bg-indigo-600 text-white px-5 py-2 rounded-md shadow-md
+    transform transition-transform duration-300 ease-in-out
+    hover:bg-indigo-700 hover:shadow-xl
+    active:translate-y-1
+    focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1"
+>
+  Beli Sekarang
+</button>
+
+
                 </div>
               </div>
             </li>
@@ -268,47 +240,34 @@ const MarketPlace = () => {
         )}
       </ul>
 
-      {/* Pagination */}
       {totalPages > 1 && (
-        <nav
-          aria-label="Navigasi halaman produk"
-          className="flex justify-center items-center gap-4 mt-8 select-none"
-        >
+        <div className="flex justify-center gap-2 mt-8">
           <button
-            onClick={() => handlePageChange(currentPage - 1)}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            aria-label="Halaman sebelumnya"
-            className="px-3 py-1 rounded-md border border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-100"
+            className="px-3 py-1 border rounded disabled:opacity-50"
           >
             &lt; Prev
           </button>
-
           {[...Array(totalPages)].map((_, i) => (
             <button
               key={i}
-              onClick={() => handlePageChange(i + 1)}
-              aria-current={currentPage === i + 1 ? 'page' : undefined}
-              aria-label={`Halaman ${i + 1}`}
-              className={`px-3 py-1 rounded-md border border-indigo-400
-                ${
-                  currentPage === i + 1
-                    ? 'bg-indigo-600 text-white'
-                    : 'hover:bg-indigo-100'
-                }`}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-3 py-1 border rounded ${
+                currentPage === i + 1 ? 'bg-indigo-600 text-white' : ''
+              }`}
             >
               {i + 1}
             </button>
           ))}
-
           <button
-            onClick={() => handlePageChange(currentPage + 1)}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            aria-label="Halaman berikutnya"
-            className="px-3 py-1 rounded-md border border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-100"
+            className="px-3 py-1 border rounded disabled:opacity-50"
           >
             Next &gt;
           </button>
-        </nav>
+        </div>
       )}
     </section>
   );
