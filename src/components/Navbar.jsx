@@ -77,13 +77,65 @@ const Navbar = () => {
     { name: "Contact", to: "/contact" },
   ];
 
+ const logoVariants = {
+  hidden: { opacity: 0, y: -10 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.2,
+      duration: 0.5,
+      type: "spring"
+    }
+  }),
+};
+
+const containerVariants = {
+  animate: {
+    transition: {
+      staggerChildren: 0.2,
+      repeat: Infinity,
+      repeatDelay: 2,
+    },
+  },
+};
+
+const letterVariants = {
+  initial: { opacity: 0, y: -10 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.5, type: "spring" } },
+};
+
+ const text = "ResQMeal".split("");
+
   return (
     <>
       <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-green-200 via-yellow-100 to-yellow-200 shadow-md h-16 flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center w-full">
-          <div className="text-xl font-bold text-green-700">
-            <Link to="/">ResQMeal</Link>
-          </div>
+           <div className="flex items-center">
+    <img 
+  src="https://raw.githubusercontent.com/gunawansapu/gunawan/main/resqmeallogo.jpg" 
+  alt="ResQMeal Logo" 
+  className="h-10 w-10 mr-2 rounded-full animate-spin-slow"
+/>
+
+     {/* Animated text */}
+      <motion.div
+        className="flex"
+        variants={containerVariants}
+        initial="initial"
+        animate="animate"
+      >
+        {text.map((letter, index) => (
+          <motion.span 
+            key={index}
+            className="text-xl font-bold text-green-700"
+            variants={letterVariants}
+          >
+            {letter}
+          </motion.span>
+        ))}
+      </motion.div>
+    </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">

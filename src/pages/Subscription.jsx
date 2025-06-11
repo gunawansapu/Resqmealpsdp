@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -9,11 +10,7 @@ const packages = [
 ];
 
 const Subscription = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    packageId: 'monthly',
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', packageId: 'monthly' });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -40,7 +37,6 @@ const Subscription = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) {
-      // Scroll ke error pertama
       if (errors.name && nameRef.current) {
         nameRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
         nameRef.current.focus();
@@ -50,7 +46,7 @@ const Subscription = () => {
       } else if (errors.packageId && packageRef.current) {
         packageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      toast.error('Harap Isi form terlebih dahulu.');
+      toast.error('Harap isi form terlebih dahulu.');
       return;
     }
 
@@ -67,27 +63,26 @@ const Subscription = () => {
   };
 
   return (
-    <section
+    <motion.section
       id="subscription"
       className="max-w-3xl mx-auto p-8 bg-gradient-to-r from-green-100 to-green-50 rounded-xl shadow-xl"
       aria-label="Form Berlangganan ResQMeal"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       <h2 className="text-4xl font-extrabold mb-8 text-center text-green-700 drop-shadow-md">
         Berlangganan <span className="text-green-900">ResQMeal</span>
       </h2>
 
       <p className="text-center mb-8 text-gray-600">
-        Pilih paket berlangganan yang sesuai dengan kebutuhanmu dan nikmati kemudahan mendapatkan makanan sehat setiap saat.
+        Pilih paket berlangganan yang sesuai dengan kebutuhanmu dan nikmati kemudahan mendapatkan makanan murah setiap saat.
       </p>
 
       <form onSubmit={handleSubmit} noValidate>
         {/* Nama */}
         <div className="mb-8" ref={nameRef}>
-          <label
-            htmlFor="name"
-            className="block font-semibold mb-3 text-gray-800 text-lg leading-relaxed"
-            style={{ letterSpacing: '0.02em' }}
-          >
+          <label htmlFor="name" className="block font-semibold mb-3 text-gray-800 text-lg leading-relaxed" style={{ letterSpacing: '0.02em' }}>
             Nama Lengkap <span className="text-red-600">*</span>
           </label>
           <input
@@ -96,28 +91,18 @@ const Subscription = () => {
             type="text"
             value={formData.name}
             onChange={handleChange}
-            className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow duration-300 text-lg ${
-              errors.name ? 'border-red-600 shadow-red-300' : 'border-gray-300 focus:shadow-indigo-300'
-            }`}
+            className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow duration-300 text-lg ${errors.name ? 'border-red-600 shadow-red-300' : 'border-gray-300 focus:shadow-indigo-300'}`}
             aria-describedby={errors.name ? 'name-error' : undefined}
             aria-invalid={errors.name ? 'true' : 'false'}
             disabled={submitting}
             style={{ lineHeight: '1.6' }}
           />
-          {errors.name && (
-            <p id="name-error" className="mt-2 text-red-600 text-sm">
-              {errors.name}
-            </p>
-          )}
+          {errors.name && <p id="name-error" className="mt-2 text-red-600 text-sm">{errors.name}</p>}
         </div>
 
         {/* Email */}
         <div className="mb-8" ref={emailRef}>
-          <label
-            htmlFor="email"
-            className="block font-semibold mb-3 text-gray-800 text-lg leading-relaxed"
-            style={{ letterSpacing: '0.02em' }}
-          >
+          <label htmlFor="email" className="block font-semibold mb-3 text-gray-800 text-lg leading-relaxed" style={{ letterSpacing: '0.02em' }}>
             Email <span className="text-red-600">*</span>
           </label>
           <input
@@ -126,19 +111,13 @@ const Subscription = () => {
             type="email"
             value={formData.email}
             onChange={handleChange}
-            className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow duration-300 text-lg ${
-              errors.email ? 'border-red-600 shadow-red-300' : 'border-gray-300 focus:shadow-indigo-300'
-            }`}
+            className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow duration-300 text-lg ${errors.email ? 'border-red-600 shadow-red-300' : 'border-gray-300 focus:shadow-indigo-300'}`}
             aria-describedby={errors.email ? 'email-error' : undefined}
             aria-invalid={errors.email ? 'true' : 'false'}
             disabled={submitting}
             style={{ lineHeight: '1.6' }}
           />
-          {errors.email && (
-            <p id="email-error" className="mt-2 text-red-600 text-sm">
-              {errors.email}
-            </p>
-          )}
+          {errors.email && <p id="email-error" className="mt-2 text-red-600 text-sm">{errors.email}</p>}
         </div>
 
         {/* Paket Langganan */}
@@ -149,17 +128,7 @@ const Subscription = () => {
             </legend>
 
             {packages.map(({ id, label, price, description }) => (
-              <label
-                key={id}
-                htmlFor={id}
-                className={`flex items-start p-5 mb-4 border rounded-lg cursor-pointer transition-all duration-300
-                  ${
-                    formData.packageId === id
-                      ? 'border-indigo-600 bg-indigo-100 shadow-lg scale-105'
-                      : 'border-gray-300 hover:bg-indigo-50 hover:shadow-md'
-                  }
-                `}
-              >
+              <label key={id} htmlFor={id} className={`flex items-start p-5 mb-4 border rounded-lg cursor-pointer transition-all duration-300 ${formData.packageId === id ? 'border-indigo-600 bg-indigo-100 shadow-lg scale-105' : 'border-gray-300 hover:bg-indigo-50 hover:shadow-md'}`}>
                 <input
                   type="radio"
                   id={id}
@@ -173,64 +142,28 @@ const Subscription = () => {
                 <div>
                   <span className="text-xl font-semibold text-indigo-700">{label}</span>
                   <p className="text-gray-700 text-base mt-1">{description}</p>
-                  <p className="mt-2 font-bold text-indigo-600 text-lg">
-                    Rp{price.toLocaleString()}
-                  </p>
+                  <p className="mt-2 font-bold text-indigo-600 text-lg">Rp{price.toLocaleString()}</p>
                 </div>
               </label>
             ))}
 
-            {errors.packageId && (
-              <p className="mt-2 text-red-600 text-sm">{errors.packageId}</p>
-            )}
+            {errors.packageId && <p className="mt-2 text-red-600 text-sm">{errors.packageId}</p>}
           </fieldset>
-           <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+          <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} />
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full bg-indigo-600 text-white font-semibold py-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors flex justify-center items-center space-x-3 text-lg"
-          aria-live="polite"
-        >
+        <button type="submit" disabled={submitting} className="w-full bg-indigo-600 text-white font-semibold py-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors flex justify-center items-center space-x-3 text-lg" aria-live="polite">
           {submitting && (
-            <svg
-              className="animate-spin h-6 w-6 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v8H4z"
-              ></path>
+            <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
             </svg>
           )}
           <span>{submitting ? 'Memproses...' : 'Berlangganan Sekarang'}</span>
         </button>
       </form>
-    </section>
+    </motion.section>
   );
 };
 

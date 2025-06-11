@@ -42,4 +42,14 @@
   animation: typing 2s steps(20, end), blink 0.75s step-end infinite;
 }
 
+/* tambahkan di tailwind.css atau global CSS */
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
 

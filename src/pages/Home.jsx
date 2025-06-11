@@ -26,27 +26,37 @@ const slides = [
     buttonText: "Jelajahi Sekarang",
     scrollToId: "produk-layanan",  // ini yang baru
     image:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80",
+      "https://assets.ladiestory.id/gallery/1643597723848635416-makanan.jpg",
   },
   {
     title: "Food Hub Terintegrasi",
     subtitle:
       "Pusat sortir & distribusi makanan dari UMKM, restoran, dan supermarket.",
-    bg: "from-green-300 via-green-200 to-white",
+    bg: "from-green-300 via-white-200 to-yellow-200",
     buttonText: "Lihat Produk",
     link: "/marketplace",
     image:
-      "https://awsimages.detik.net.id/community/media/visual/2024/09/01/milled-artisan-bakery-12.jpeg?w=1200",
+      "https://png.pngtree.com/background/20250125/original/pngtree-warm-golden-bakery-aesthetic-with-assorted-pastries-picture-image_16074284.jpg",
   },
   {
     title: "Donasi Makanan",
     subtitle:
       "Bantu sesama dengan menyumbangkan makanan ke komunitas dan kurir lokal.",
-    bg: "from-yellow-200 via-green-100 to-white",
+    bg: "from-yellow-200 via-green-200 to-white-100",
     buttonText: "Donasi Sekarang",
     link: "/donasi",
     image:
       "https://png.pngtree.com/png-vector/20220526/ourmid/pngtree-charity-and-donating-food-concept-png-image_4740793.png",
+  },
+  {
+    title: "Gabung Mitra",
+    subtitle:
+      "Mari bergabung dengan kami untuk masa depan lebih cerah dengan mengurangi sampah makanan sisa",
+    bg: "from-white-100 via-yellow-300 to-green-300",
+    buttonText: "Gabung Sekarang",
+    link: "/gabungmitra",
+    image:
+      "https://raw.githubusercontent.com/gunawansapu/gunawan/main/ChatGPT%20Image%20Jun%2011%2C%202025%2C%2009_57_28%20PM.png",
   },
 ];
 
