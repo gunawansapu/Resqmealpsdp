@@ -1,9 +1,10 @@
 import React from 'react';
 import {
-  FaUsers,
-  FaLaptop,
-  FaAppleAlt,
-  FaHome,
+  FaLeaf,
+  FaUserFriends,
+  FaStore,
+  FaMotorcycle,
+  FaHandsHelping,
 } from 'react-icons/fa';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
@@ -11,35 +12,38 @@ import { motion } from 'framer-motion';
 const targetMarkets = [
   {
     id: 1,
-    icon: <FaUsers size={40} className="text-purple-600" />,
-    title: 'Mahasiswa & Pelajar',
-    description:
-      'Peduli lingkungan dan aktif mendukung pengurangan food waste sambil menikmati makanan terjangkau.',
-    marketShare: 35,
-  },
-  {
-    id: 2,
-    icon: <FaLaptop size={40} className="text-blue-600" />,
-    title: 'Karyawan Kantoran',
-    description:
-      'Sibuk, praktis, tapi tetap peduli sustainability dengan makan siang praktis, sehat, dan ramah lingkungan.',
+    icon: <FaLeaf size={40} className="text-green-600" />,
+    title: 'Pecinta Lingkungan',
+    description: 'Individu yang peduli terhadap sustainability, zero waste, dan penyelamatan makanan sisa.',
     marketShare: 30,
   },
   {
+    id: 2,
+    icon: <FaUserFriends size={40} className="text-blue-600" />,
+    title: 'Masyarakat Ekonomi Menengah Bawah',
+    description: 'Mahasiswa, pekerja kantoran, dan masyarakat umum yang mencari makanan berkualitas dengan harga lebih terjangkau.',
+    marketShare: 25,
+  },
+  {
     id: 3,
-    icon: <FaAppleAlt size={40} className="text-green-600" />,
-    title: 'Pecinta Lingkungan',
-    description:
-      'Komunitas yang concern pada pengurangan jejak karbon dan limbah makanan secara aktif.',
+    icon: <FaStore size={40} className="text-purple-600" />,
+    title: 'Mitra Bisnis & UMKM',
+    description: 'Restoran, supermarket, bakery, dan usaha kecil yang menjadi sumber makanan sisa layak konsumsi.',
     marketShare: 20,
   },
   {
     id: 4,
-    icon: <FaHome size={40} className="text-red-600" />,
-    title: 'Ibu Rumah Tangga',
-    description:
-      'Menyediakan makanan bergizi untuk keluarga sekaligus berkontribusi dalam gerakan penyelamatan pangan.',
+    icon: <FaMotorcycle size={40} className="text-orange-500" />,
+    title: 'Mitra Driver & Kurir',
+    description: 'Mitra ojek online & kurir lokal yang berperan dalam pengantaran makanan secara cepat & efisien.',
     marketShare: 15,
+  },
+  {
+    id: 5,
+    icon: <FaHandsHelping size={40} className="text-pink-500" />,
+    title: 'Komunitas Sosial',
+    description: 'Organisasi sosial yang membeli makanan layak konsumsi untuk disalurkan ke masyarakat kurang mampu.',
+    marketShare: 10,
   },
 ];
 
@@ -83,10 +87,10 @@ const TargetMarket = () => {
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        Kami melayani berbagai segmen dengan kebutuhan berbeda namun satu tujuan: menyelamatkan makanan & mengurangi limbah.
+        ResQMeal melayani beragam segmen masyarakat dengan misi utama menyelamatkan makanan sisa, mengurangi limbah, dan membantu masyarakat secara sosial dan ekonomi.
       </motion.p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {targetMarkets.map(({ id, icon, title, description, marketShare }, index) => (
           <motion.article
             key={id}
@@ -110,7 +114,7 @@ const TargetMarket = () => {
                 </div>
                 <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-3 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600"
+                    className="h-3 rounded-full bg-gradient-to-r from-green-500 to-teal-600"
                     initial={{ width: 0 }}
                     animate={inView ? { width: `${marketShare}%` } : {}}
                     transition={{ duration: 1.2, delay: 0.3 + index * 0.2 }}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-  FaClipboardList,
-  FaUserCheck,
-  FaTruckLoading,
+  FaHandHolding,
+  FaSearch,
   FaWarehouse,
-  FaShippingFast,
+  FaTruckMoving,
+  FaPeopleCarry,
 } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,43 +12,43 @@ import 'react-toastify/dist/ReactToastify.css';
 const supplyChainSteps = [
   {
     id: 1,
-    icon: <FaClipboardList size={36} className="text-indigo-600" />,
-    title: 'Perencanaan Tepat Sasaran',
+    icon: <FaHandHolding size={36} className="text-green-600" />,
+    title: 'Pengumpulan Surplus',
     description:
-      'Merencanakan pengumpulan & distribusi makanan sesuai permintaan komunitas untuk mengurangi overstock.',
-    bgColor: 'bg-indigo-50',
-  },
-  {
-    id: 2,
-    icon: <FaUserCheck size={36} className="text-green-600" />,
-    title: 'Seleksi Mitra Strategis',
-    description:
-      'Bekerjasama dengan restoran, UMKM, & supermarket yang memiliki standar keamanan pangan tinggi.',
+      'Pengumpulan makanan sisa dari restoran, hotel, supermarket, bakery, dan UMKM mitra.',
     bgColor: 'bg-green-50',
   },
   {
-    id: 3,
-    icon: <FaTruckLoading size={36} className="text-yellow-600" />,
-    title: 'Pengumpulan & Logistik',
+    id: 2,
+    icon: <FaSearch size={36} className="text-blue-600" />,
+    title: 'Sortir & Pemeriksaan',
     description:
-      'Pengantaran cepat dari mitra ke pusat sortir untuk menjaga kesegaran dan kualitas.',
-    bgColor: 'bg-yellow-50',
-  },
-  {
-    id: 4,
-    icon: <FaWarehouse size={36} className="text-blue-600" />,
-    title: 'Sortir & Penyimpanan',
-    description:
-      'Penyortiran ketat & penyimpanan bersih sesuai standar untuk menjaga keamanan makanan.',
+      'Pemeriksaan kualitas dan keamanan pangan untuk memastikan kelayakan konsumsi.',
     bgColor: 'bg-blue-50',
   },
   {
+    id: 3,
+    icon: <FaWarehouse size={36} className="text-purple-600" />,
+    title: 'Penyimpanan Sementara',
+    description:
+      'Makanan disimpan di Food Rescue Hub dengan standar penyimpanan yang higienis.',
+    bgColor: 'bg-purple-50',
+  },
+  {
+    id: 4,
+    icon: <FaTruckMoving size={36} className="text-yellow-600" />,
+    title: 'Logistik & Pengiriman',
+    description:
+      'Pengaturan logistik & pengiriman cepat oleh kurir internal & partner logistik terpercaya.',
+    bgColor: 'bg-yellow-50',
+  },
+  {
     id: 5,
-    icon: <FaShippingFast size={36} className="text-red-600" />,
+    icon: <FaPeopleCarry size={36} className="text-pink-600" />,
     title: 'Distribusi Akhir',
     description:
-      'Pengiriman cepat ke pelanggan & komunitas, memastikan produk tiba tepat waktu dan aman.',
-    bgColor: 'bg-red-50',
+      'Makanan disalurkan ke konsumen, komunitas sosial, atau lembaga amal penerima manfaat.',
+    bgColor: 'bg-pink-50',
   },
 ];
 
@@ -65,7 +65,7 @@ const SupplyChain = () => {
   }, []);
 
   const handleClick = () => {
-    toast.info('Rantai pasok kami mengutamakan efisiensi & keamanan pangan!', {
+    toast.info('Rantai pasok ResQMeal selalu memprioritaskan keamanan & efisiensi!', {
       position: 'top-center',
       autoClose: 3000,
     });
@@ -79,10 +79,10 @@ const SupplyChain = () => {
     >
       <div className="max-w-7xl mx-auto text-center mb-16">
         <h2 className="text-5xl font-extrabold text-gray-900 mb-4">
-          Proses Rantai Pasok
+          Proses Supply Chain
         </h2>
         <p className="text-gray-600 text-lg">
-          Menjamin keamanan, efisiensi, dan dampak sosial dari hulu ke hilir.
+          Mengelola makanan surplus secara aman & efisien dari hulu hingga ke tangan penerima manfaat.
         </p>
       </div>
 

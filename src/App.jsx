@@ -21,7 +21,6 @@ import Keranjang from "./pages/Keranjang";
 import Favorit from "./pages/Favorit";
 import Pembayaran from "./pages/Pembayaran";
 import GabungMitra from "./pages/GabungMitra";
-
 import { AuthProvider } from "./components/AuthContext";
 
 function App() {

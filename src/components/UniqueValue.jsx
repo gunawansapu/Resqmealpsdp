@@ -1,39 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaLeaf, FaClock, FaHeart, FaStar } from 'react-icons/fa';
+import { FaRecycle,
+  FaHandHoldingHeart,
+  FaDollarSign,
+  FaShieldAlt,
+  FaGlobeAmericas} from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const uniqueValues = [
   {
     id: 1,
-    icon: <FaLeaf size={42} className="text-green-500" />,
-    title: 'Bahan Alami & Diselamatkan',
-    shortDesc: 'Menggunakan bahan makanan layak konsumsi yang diselamatkan dari limbah.',
+    icon: <FaRecycle size={42} className="text-green-500" />,
+    title: 'Mengurangi Food Waste',
+    shortDesc: 'Menyelamatkan makanan sisa agar tidak menjadi limbah sia-sia.',
     longDesc:
-      'ResQMeal mengutamakan bahan alami layak konsumsi dari mitra restoran & supermarket. Dengan menyelamatkan makanan, kami menghadirkan nutrisi sehat sekaligus mengurangi food waste secara signifikan.',
+      'ResQMeal memanfaatkan surplus makanan layak konsumsi dari mitra bisnis dan restoran, mengurangi pembuangan makanan sekaligus mendukung ketahanan pangan.',
   },
   {
     id: 2,
-    icon: <FaClock size={42} className="text-indigo-500" />,
-    title: 'Pemesanan Mudah & Efisien',
-    shortDesc: 'Proses pemesanan cepat dengan sistem digital yang efisien dan transparan.',
+    icon: <FaDollarSign size={42} className="text-yellow-500" />,
+    title: 'Harga Terjangkau',
+    shortDesc: 'Makanan berkualitas dengan harga lebih hemat.',
     longDesc:
-      'Platform ResQMeal memudahkan pemesanan cepat, pelacakan status real-time, serta pengiriman tepat waktu, tanpa mengorbankan kualitas makanan yang diterima pelanggan.',
+      'Dengan sistem food rescue, ResQMeal dapat memberikan makanan berkualitas yang tetap aman, namun dengan harga yang lebih terjangkau untuk konsumen.',
   },
   {
     id: 3,
-    icon: <FaHeart size={42} className="text-red-500" />,
-    title: 'Menu Enak & Bernilai Sosial',
-    shortDesc: 'Hidangan enak dan bergizi dengan misi sosial kuat.',
+    icon: <FaHandHoldingHeart size={42} className="text-pink-500" />,
+    title: 'Dampak Sosial',
+    shortDesc: 'Membantu masyarakat kurang mampu dan komunitas sosial.',
     longDesc:
-      'Setiap menu ResQMeal bukan hanya memanjakan lidah, tapi juga berperan aktif dalam gerakan penyelamatan makanan dan mendukung ketahanan pangan nasional.',
+      'Sebagian makanan surplus disalurkan ke lembaga sosial untuk membantu masyarakat yang membutuhkan, mendukung gerakan ketahanan pangan sosial.',
   },
   {
     id: 4,
-    icon: <FaStar size={42} className="text-yellow-500" />,
-    title: 'Harga Bersahabat & Berdampak',
-    shortDesc: 'Harga terjangkau untuk makanan sehat & berkelanjutan.',
+    icon: <FaShieldAlt size={42} className="text-indigo-500" />,
+    title: 'Keamanan & Kualitas',
+    shortDesc: 'Proses sortir ketat untuk menjamin keamanan pangan.',
     longDesc:
-      'Berkat food rescue, ResQMeal menyediakan makanan bergizi dengan harga lebih terjangkau. Setiap transaksi turut berkontribusi bagi solusi lingkungan dan sosial.',
+      'Setiap makanan yang diproses ResQMeal melalui tahap penyortiran ketat, quality control, serta standar higienitas untuk menjaga keamanan makanan yang disalurkan.',
+  },
+  {
+    id: 5,
+    icon: <FaGlobeAmericas size={42} className="text-blue-500" />,
+    title: 'Ramah Lingkungan',
+    shortDesc: 'Kontribusi nyata dalam pengurangan limbah & karbon.',
+    longDesc:
+      'Dengan mengurangi food waste, ResQMeal secara langsung mengurangi emisi karbon, mendukung sustainability, dan memperpanjang siklus hidup makanan yang aman konsumsi.',
   },
 ];
 

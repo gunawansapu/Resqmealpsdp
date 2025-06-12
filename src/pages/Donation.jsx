@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const paymentMethods = [
   { id: 'credit', label: 'Kartu Kredit' },
@@ -61,6 +63,16 @@ const Donation = () => {
     }
   };
 
+  const showSuccessToast = () => {
+    toast.success('Donasi berhasil! Terima kasih atas dukungan Anda 🙏', {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
@@ -75,6 +87,7 @@ const Donation = () => {
     setDonors((prev) => [newDonor, ...prev]);
     setFormData({ name: '', email: '', amount: '', paymentMethod: '' });
     setSubmitted(true);
+    showSuccessToast();
     setTimeout(() => setSubmitted(false), 4000);
   };
 
@@ -208,6 +221,8 @@ const Donation = () => {
           ))}
         </ul>
       </motion.section>
+
+      <ToastContainer />
     </motion.section>
   );
 };
