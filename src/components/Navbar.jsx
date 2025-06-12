@@ -139,67 +139,70 @@ const letterVariants = {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">
-            {navItems.map((item, i) =>
-              item.submenu ? (
-                <div key={i} className="relative">
-                  <button
-                    onClick={() =>
-                      setDropdownOpen((prev) => ({
-                        ...prev,
-                        [item.name]: !prev[item.name],
-                      }))
-                    }
-                    className="flex items-center text-gray-700 hover:text-green-600 transition-colors duration-200"
-                  >
-                    {item.name}
-                    {dropdownOpen[item.name] ? (
-                      <ChevronUp className="ml-1 w-4 h-4" />
-                    ) : (
-                      <ChevronDown className="ml-1 w-4 h-4" />
-                    )}
-                  </button>
-                  {dropdownOpen[item.name] && (
-                    <div className="absolute left-0 mt-2 w-40 bg-white border rounded-md shadow-lg z-50">
-                      <Link
-                        to={item.to}
-                        className="block px-4 py-2 hover:bg-green-100"
-                        onClick={() =>
-                          setDropdownOpen((prev) => ({
-                            ...prev,
-                            [item.name]: false,
-                          }))
-                        }
-                      >
-                        {item.name}
-                      </Link>
-                      {item.submenu.map((sub, j) => (
-                        <Link
-                          key={j}
-                          to={sub.to}
-                          className="block px-4 py-2 hover:bg-green-100"
-                          onClick={() =>
-                            setDropdownOpen((prev) => ({
-                              ...prev,
-                              [item.name]: false,
-                            }))
-                          }
-                        >
-                          {sub.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  key={i}
-                  to={item.to}
-                  className="text-gray-700 hover:text-green-600 transition-colors duration-200"
-                >
-                  {item.name}
-                </Link>
-              )
-            )}
+  {navItems.map((item, i) =>
+    item.submenu ? (
+      <div key={i} className="relative">
+        <button
+          onClick={() =>
+            setDropdownOpen((prev) => ({
+              ...prev,
+              [item.name]: !prev[item.name],
+            }))
+          }
+          className="flex items-center text-gray-700 hover:text-green-600 transition-colors duration-200"
+        >
+          {item.name}
+          {dropdownOpen[item.name] ? (
+            <ChevronUp className="ml-1 w-4 h-4" />
+          ) : (
+            <ChevronDown className="ml-1 w-4 h-4" />
+          )}
+        </button>
+        {dropdownOpen[item.name] && (
+          <div className="absolute left-0 mt-2 w-40 bg-white border rounded-md shadow-lg z-50">
+            <Link
+              to={item.to}
+              className="block px-4 py-2 hover:bg-green-100"
+              onClick={() => {
+                setDropdownOpen((prev) => ({
+                  ...prev,
+                  [item.name]: false,
+                }));
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // <- scrollToTop disini
+              }}
+            >
+              {item.name}
+            </Link>
+            {item.submenu.map((sub, j) => (
+              <Link
+                key={j}
+                to={sub.to}
+                className="block px-4 py-2 hover:bg-green-100"
+                onClick={() => {
+                  setDropdownOpen((prev) => ({
+                    ...prev,
+                    [item.name]: false,
+                  }));
+                  window.scrollTo({ top: 0, behavior: 'smooth' }); // <- scrollToTop disini
+                }}
+              >
+                {sub.name}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    ) : (
+     <Link
+  key={i}
+  to={item.to}
+  className="text-gray-700 hover:text-green-600 transition-colors duration-200"
+  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+>
+  {item.name}
+</Link>
+    )
+  )}
 
             <Link
               to="/favorit"
@@ -279,8 +282,7 @@ const letterVariants = {
             )}
           </div>
         </div>
-
-     {/* Mobile Menu */}
+{/* Mobile Menu */}
 <AnimatePresence>
   {menuOpen && (
     <motion.div
@@ -297,9 +299,7 @@ const letterVariants = {
             <div key={i}>
               <button
                 onClick={() =>
-                  setOpenSubmenuIndex((prev) =>
-                    prev === i ? null : i
-                  )
+                  setOpenSubmenuIndex((prev) => (prev === i ? null : i))
                 }
                 className="flex items-center justify-between w-full text-gray-700 hover:text-green-600 text-lg font-medium"
               >
@@ -310,6 +310,7 @@ const letterVariants = {
                   <ChevronDown className="ml-1 w-5 h-5" />
                 )}
               </button>
+
               {openSubmenuIndex === i && (
                 <div className="pl-4 mt-1 flex flex-col space-y-2">
                   <Link
@@ -318,10 +319,14 @@ const letterVariants = {
                     onClick={() => {
                       setMenuOpen(false);
                       setOpenSubmenuIndex(null);
+                      setTimeout(() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }, 100);
                     }}
                   >
                     {item.name}
                   </Link>
+
                   {item.submenu.map((sub, j) => (
                     <Link
                       key={j}
@@ -330,6 +335,9 @@ const letterVariants = {
                       onClick={() => {
                         setMenuOpen(false);
                         setOpenSubmenuIndex(null);
+                        setTimeout(() => {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }, 100);
                       }}
                     >
                       {sub.name}
@@ -343,7 +351,12 @@ const letterVariants = {
               key={i}
               to={item.to}
               className="text-gray-700 hover:text-green-600 text-lg font-medium"
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                setMenuOpen(false);
+                setTimeout(() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 100);
+              }}
             >
               {item.name}
             </Link>

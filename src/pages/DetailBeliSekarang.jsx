@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import productsData from '../data/productsData';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Heart, ShoppingCart, CheckCircle } from 'lucide-react';
 
 const DetailBeliSekarang = () => {
   const { id } = useParams();
@@ -40,7 +41,7 @@ const DetailBeliSekarang = () => {
 
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    toast.success(`${product.name} (x${quantity}) ditambahkan ke keranjang!`);
+    toast.success(`${product.name} (x${quantity}) berhasil ditambahkan ke keranjang!`);
   };
 
   const handleAddToFavorite = () => {
@@ -85,67 +86,76 @@ const DetailBeliSekarang = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-white shadow rounded-lg mt-6">
-      <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-      <img
-        src={product.imageUrl}
-        alt={product.name}
-        className="w-full h-64 object-cover rounded mb-4"
-      />
-      <p className="text-lg text-gray-700 mb-2">Kategori: {product.category}</p>
-      <p className="text-gray-600 mb-4">{product.description}</p>
-
-      <div className="mb-6 flex items-center gap-4">
-        <button
-          onClick={decrement}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded transition"
-        >
-          −
-        </button>
-        <span className="text-xl font-semibold w-10 text-center">{quantity}</span>
-        <button
-          onClick={increment}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-3 rounded transition"
-        >
-          +
-        </button>
-      </div>
-
-      <p className="text-indigo-700 font-bold text-xl mb-6">
-        Total Harga: Rp{totalPrice.toLocaleString()}
-      </p>
-
-      <div className="flex flex-wrap gap-4">
-        <button
-          onClick={handleBuyNow}
-          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"
-        >
-          Beli Sekarang
-        </button>
-        <button
-          onClick={handleAddToCart}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
-        >
-          Tambah ke Keranjang
-        </button>
-        <button
-          onClick={handleAddToFavorite}
-          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
-        >
-          Favorit
-        </button>
-      </div>
-       <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
+    <div className="max-w-6xl mx-auto p-8 bg-white shadow-2xl rounded-3xl mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="relative group">
+        <img
+          src={product.imageUrl}
+          alt={product.name}
+          className="w-full h-[400px] md:h-[500px] object-cover rounded-3xl shadow-lg transition-transform duration-500 group-hover:scale-105"
         />
+      </div>
+
+      <div className="flex flex-col justify-between">
+        <div>
+          <h1 className="text-4xl font-bold mb-4 text-green-700">{product.name}</h1>
+          <p className="text-sm text-gray-500 mb-3 bg-green-100 px-3 py-1 rounded-full inline-block">
+            Kategori: {product.category}
+          </p>
+          <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
+
+          <div className="mb-6 flex items-center gap-4">
+            <button
+              onClick={decrement}
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-5 rounded-full transition"
+            >
+              −
+            </button>
+            <span className="text-2xl font-semibold w-14 text-center">{quantity}</span>
+            <button
+              onClick={increment}
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-5 rounded-full transition"
+            >
+              +
+            </button>
+          </div>
+
+          <p className="text-3xl text-green-600 font-extrabold mb-8">
+            Rp{totalPrice.toLocaleString()}
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button
+              onClick={handleBuyNow}
+              className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-3 rounded-full text-lg shadow-lg hover:scale-105 transition"
+            >
+              <CheckCircle size={24} /> Beli Sekarang
+            </button>
+
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-full text-lg shadow-lg hover:scale-105 transition"
+            >
+              <ShoppingCart size={24} className="scale-125" /> Tambah ke Keranjang
+            </button>
+
+            <button
+              onClick={handleAddToFavorite}
+              className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-6 py-3 rounded-full text-lg shadow-lg hover:scale-105 transition"
+            >
+              <Heart size={24} /> Favorit
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 };

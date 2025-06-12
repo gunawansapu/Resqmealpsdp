@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const packages = [
   { id: 'monthly', label: 'Paket Bulanan', price: 120000, description: 'Berlangganan setiap bulan dengan pengiriman teratur.' },
@@ -37,16 +38,7 @@ const Subscription = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) {
-      if (errors.name && nameRef.current) {
-        nameRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        nameRef.current.focus();
-      } else if (errors.email && emailRef.current) {
-        emailRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        emailRef.current.focus();
-      } else if (errors.packageId && packageRef.current) {
-        packageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-      toast.error('Harap isi form terlebih dahulu.');
+      toast.error('Harap isi form dengan benar.');
       return;
     }
 
@@ -57,111 +49,89 @@ const Subscription = () => {
       setSubmitting(false);
       setSuccess(true);
       setFormData({ name: '', email: '', packageId: 'monthly' });
-      toast.success('Terima kasih sudah berlangganan! Kami akan segera menghubungi Anda.');
+      toast.success('Berhasil berlangganan! Kami akan segera menghubungi Anda.');
       setTimeout(() => setSuccess(false), 3000);
-    }, 2000);
+    }, 1500);
   };
 
   return (
     <motion.section
       id="subscription"
-      className="max-w-3xl mx-auto p-8 bg-gradient-to-r from-green-100 to-green-50 rounded-xl shadow-xl"
-      aria-label="Form Berlangganan ResQMeal"
+      className="max-w-4xl mx-auto p-10 bg-white rounded-2xl shadow-2xl"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
     >
-      <h2 className="text-4xl font-extrabold mb-8 text-center text-green-700 drop-shadow-md">
-        Berlangganan <span className="text-green-900">ResQMeal</span>
-      </h2>
+      <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold text-green-700 leading-tight">
+  Langganan <span className="text-green-900">ResQMeal</span>
+</h2>
 
-      <p className="text-center mb-8 text-gray-600">
-        Pilih paket berlangganan yang sesuai dengan kebutuhanmu dan nikmati kemudahan mendapatkan makanan murah setiap saat.
+      <p className="text-center mb-10 text-gray-500 text-lg">
+        Pilih paket yang sesuai, nikmati hemat & makanan berkualitas setiap bulan.
       </p>
 
-      <form onSubmit={handleSubmit} noValidate>
-        {/* Nama */}
-        <div className="mb-8" ref={nameRef}>
-          <label htmlFor="name" className="block font-semibold mb-3 text-gray-800 text-lg leading-relaxed" style={{ letterSpacing: '0.02em' }}>
-            Nama Lengkap <span className="text-red-600">*</span>
-          </label>
+      <form onSubmit={handleSubmit} noValidate className="space-y-8">
+        <div ref={nameRef}>
+          <label htmlFor="name" className="font-semibold text-lg block mb-2 text-gray-700">Nama Lengkap *</label>
           <input
-            id="name"
-            name="name"
-            type="text"
-            value={formData.name}
-            onChange={handleChange}
-            className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow duration-300 text-lg ${errors.name ? 'border-red-600 shadow-red-300' : 'border-gray-300 focus:shadow-indigo-300'}`}
-            aria-describedby={errors.name ? 'name-error' : undefined}
-            aria-invalid={errors.name ? 'true' : 'false'}
+            id="name" name="name" type="text" value={formData.name} onChange={handleChange}
+            className={`w-full px-5 py-3 rounded-xl border ${errors.name ? 'border-red-500' : 'border-gray-300'} focus:ring-2 focus:ring-green-500 transition`}
             disabled={submitting}
-            style={{ lineHeight: '1.6' }}
           />
-          {errors.name && <p id="name-error" className="mt-2 text-red-600 text-sm">{errors.name}</p>}
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
 
-        {/* Email */}
-        <div className="mb-8" ref={emailRef}>
-          <label htmlFor="email" className="block font-semibold mb-3 text-gray-800 text-lg leading-relaxed" style={{ letterSpacing: '0.02em' }}>
-            Email <span className="text-red-600">*</span>
-          </label>
+        <div ref={emailRef}>
+          <label htmlFor="email" className="font-semibold text-lg block mb-2 text-gray-700">Email *</label>
           <input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow duration-300 text-lg ${errors.email ? 'border-red-600 shadow-red-300' : 'border-gray-300 focus:shadow-indigo-300'}`}
-            aria-describedby={errors.email ? 'email-error' : undefined}
-            aria-invalid={errors.email ? 'true' : 'false'}
+            id="email" name="email" type="email" value={formData.email} onChange={handleChange}
+            className={`w-full px-5 py-3 rounded-xl border ${errors.email ? 'border-red-500' : 'border-gray-300'} focus:ring-2 focus:ring-green-500 transition`}
             disabled={submitting}
-            style={{ lineHeight: '1.6' }}
           />
-          {errors.email && <p id="email-error" className="mt-2 text-red-600 text-sm">{errors.email}</p>}
+          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
         </div>
 
-        {/* Paket Langganan */}
-        <div className="mb-10" ref={packageRef}>
-          <fieldset>
-            <legend className="block font-semibold mb-4 text-gray-800 text-lg leading-relaxed" style={{ letterSpacing: '0.02em' }}>
-              Pilih Paket Langganan <span className="text-red-600">*</span>
-            </legend>
-
+        <div ref={packageRef}>
+          <p className="font-semibold text-lg mb-4 text-gray-700">Pilih Paket *</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {packages.map(({ id, label, price, description }) => (
-              <label key={id} htmlFor={id} className={`flex items-start p-5 mb-4 border rounded-lg cursor-pointer transition-all duration-300 ${formData.packageId === id ? 'border-indigo-600 bg-indigo-100 shadow-lg scale-105' : 'border-gray-300 hover:bg-indigo-50 hover:shadow-md'}`}>
-                <input
-                  type="radio"
-                  id={id}
-                  name="packageId"
-                  value={id}
-                  checked={formData.packageId === id}
-                  onChange={handleChange}
-                  className="mt-1 mr-5 cursor-pointer"
-                  disabled={submitting}
-                />
-                <div>
-                  <span className="text-xl font-semibold text-indigo-700">{label}</span>
-                  <p className="text-gray-700 text-base mt-1">{description}</p>
-                  <p className="mt-2 font-bold text-indigo-600 text-lg">Rp{price.toLocaleString()}</p>
+              <label
+                key={id}
+                htmlFor={id}
+                className={`border rounded-2xl p-5 cursor-pointer transition-all duration-300 ${formData.packageId === id ? 'border-green-500 shadow-xl scale-105' : 'border-gray-300 hover:border-green-400 hover:shadow-md'}`}
+              >
+                <div className="flex items-start gap-4">
+                  <input
+                    type="radio" id={id} name="packageId" value={id}
+                    checked={formData.packageId === id} onChange={handleChange}
+                    className="mt-1 cursor-pointer"
+                    disabled={submitting}
+                  />
+                  <div>
+                    <div className="text-xl font-semibold text-green-700">{label}</div>
+                    <p className="text-gray-500">{description}</p>
+                    <p className="mt-2 text-lg font-bold text-green-700">Rp{price.toLocaleString()}</p>
+                  </div>
                 </div>
               </label>
             ))}
-
-            {errors.packageId && <p className="mt-2 text-red-600 text-sm">{errors.packageId}</p>}
-          </fieldset>
-          <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} />
+          </div>
+          {errors.packageId && <p className="text-red-500 text-sm mt-2">{errors.packageId}</p>}
         </div>
 
-        {/* Submit Button */}
-        <button type="submit" disabled={submitting} className="w-full bg-indigo-600 text-white font-semibold py-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors flex justify-center items-center space-x-3 text-lg" aria-live="polite">
-          {submitting && (
-            <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-            </svg>
+        <button
+          type="submit" disabled={submitting}
+          className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-4 rounded-xl shadow-lg hover:brightness-110 transition text-lg flex justify-center items-center gap-3"
+        >
+          {submitting ? (
+            <div className="animate-spin h-6 w-6 border-4 border-white border-t-transparent rounded-full"></div>
+          ) : (
+            <FaCheckCircle size={22} />
           )}
-          <span>{submitting ? 'Memproses...' : 'Berlangganan Sekarang'}</span>
+          {submitting ? 'Memproses...' : 'Berlangganan Sekarang'}
         </button>
+
+        <ToastContainer position="top-center" autoClose={2500} />
       </form>
     </motion.section>
   );

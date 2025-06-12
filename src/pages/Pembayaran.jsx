@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ShoppingBag, CreditCard, MapPin, Phone } from 'lucide-react';
 
 const Pembayaran = () => {
   const navigate = useNavigate();
@@ -43,21 +44,15 @@ const Pembayaran = () => {
     e.preventDefault();
 
     if (!form.nama || !form.alamat || !form.telepon) {
-      toast.error('Mohon lengkapi semua data.', {
-        position: 'top-center',
-      });
+      toast.error('Mohon lengkapi semua data.');
       return;
     }
 
     setLoading(true);
-
     setTimeout(() => {
       toast.success(
         `Pembayaran berhasil!\nTotal bayar: Rp${totalPrice.toLocaleString()}\nTerima kasih, ${form.nama}!`,
-        {
-          position: 'top-center',
-          autoClose: 3000,
-        }
+        { autoClose: 3000 }
       );
 
       localStorage.removeItem('cart');
@@ -79,107 +74,114 @@ const Pembayaran = () => {
   return (
     <>
       <ToastContainer />
-      <div className="max-w-4xl mx-auto mt-24 mb-24 p-8 bg-gradient-to-br from-white to-slate-100 rounded-xl shadow-2xl border border-gray-200">
-        <h2 className="text-3xl font-bold text-indigo-700 mb-6 border-b pb-2">Pembayaran</h2>
+      <div className="max-w-5xl mx-auto mt-20 mb-20 p-10 bg-white rounded-3xl shadow-2xl border border-gray-200">
 
-        <div className="mb-6">
-          <h3 className="text-xl font-semibold text-gray-700 mb-4">🛒 Ringkasan Pesanan</h3>
-          <ul className="divide-y divide-gray-200 border rounded-md max-h-60 overflow-y-auto bg-white p-4 shadow-sm">
-            {items.map((item) => (
-              <li key={item.id} className="flex justify-between py-2 text-gray-600 text-sm">
-                <span>{item.name} x {item.quantity || 1}</span>
-                <span className="font-medium text-gray-800">
-                  Rp{(item.price * (item.quantity || 1)).toLocaleString()}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <div className="text-right mt-4 font-bold text-lg text-indigo-800">
-            Total: Rp{totalPrice.toLocaleString()}
-          </div>
-        </div>
+        <h2 className="text-4xl font-bold text-indigo-700 mb-10 text-center">🧾 Pembayaran</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="nama" className="block text-sm font-semibold text-gray-600 mb-1">
-              Nama Lengkap
-            </label>
-            <input
-              type="text"
-              id="nama"
-              name="nama"
-              value={form.nama}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              placeholder="Nama lengkap Anda"
-              required
-              disabled={loading}
-            />
+        <div className="grid md:grid-cols-2 gap-10">
+
+          {/* Ringkasan Pesanan */}
+          <div className="bg-gray-50 p-6 rounded-2xl shadow-sm border border-gray-200">
+            <h3 className="text-xl font-semibold text-gray-700 mb-6 flex items-center gap-2">
+              <ShoppingBag size={22} /> Ringkasan Pesanan
+            </h3>
+
+            <div className="divide-y divide-gray-200 max-h-72 overflow-y-auto bg-white p-4 rounded-lg shadow-inner">
+              {items.map((item) => (
+                <div key={item.id} className="flex justify-between py-3 text-gray-700 text-sm">
+                  <span>{item.name} x {item.quantity || 1}</span>
+                  <span className="font-semibold text-green-700">
+                    Rp{(item.price * (item.quantity || 1)).toLocaleString()}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-right mt-6 text-lg font-bold text-indigo-700">
+              Total: Rp{totalPrice.toLocaleString()}
+            </div>
           </div>
 
-          <div>
-            <label htmlFor="alamat" className="block text-sm font-semibold text-gray-600 mb-1">
-              Alamat Pengiriman
-            </label>
-            <textarea
-              id="alamat"
-              name="alamat"
-              value={form.alamat}
-              onChange={handleChange}
-              rows={3}
-              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              placeholder="Alamat lengkap Anda"
-              required
-              disabled={loading}
-            />
-          </div>
+          {/* Form Pembayaran */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-600 mb-2">Nama Lengkap</label>
+              <div className="flex items-center bg-white border rounded-lg shadow-sm">
+                <div className="p-3 text-gray-400"><CreditCard size={18} /></div>
+                <input
+                  type="text"
+                  name="nama"
+                  value={form.nama}
+                  onChange={handleChange}
+                  placeholder="Nama lengkap"
+                  className="w-full px-3 py-3 focus:outline-none"
+                  required
+                  disabled={loading}
+                />
+              </div>
+            </div>
 
-          <div>
-            <label htmlFor="telepon" className="block text-sm font-semibold text-gray-600 mb-1">
-              Nomor Telepon
-            </label>
-            <input
-              type="tel"
-              id="telepon"
-              name="telepon"
-              value={form.telepon}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              placeholder="08xxxxxxxxxx"
-              required
-              disabled={loading}
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-600 mb-2">Alamat Pengiriman</label>
+              <div className="flex items-start bg-white border rounded-lg shadow-sm">
+                <div className="p-3 text-gray-400"><MapPin size={18} /></div>
+                <textarea
+                  name="alamat"
+                  value={form.alamat}
+                  onChange={handleChange}
+                  rows={3}
+                  placeholder="Alamat lengkap"
+                  className="w-full px-3 py-3 focus:outline-none"
+                  required
+                  disabled={loading}
+                />
+              </div>
+            </div>
 
-          <div>
-            <label htmlFor="metodePembayaran" className="block text-sm font-semibold text-gray-600 mb-1">
-              Metode Pembayaran
-            </label>
-            <select
-              id="metodePembayaran"
-              name="metodePembayaran"
-              value={form.metodePembayaran}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            <div>
+              <label className="block text-sm font-semibold text-gray-600 mb-2">Nomor Telepon</label>
+              <div className="flex items-center bg-white border rounded-lg shadow-sm">
+                <div className="p-3 text-gray-400"><Phone size={18} /></div>
+                <input
+                  type="tel"
+                  name="telepon"
+                  value={form.telepon}
+                  onChange={handleChange}
+                  placeholder="08xxxxxxxxxx"
+                  className="w-full px-3 py-3 focus:outline-none"
+                  required
+                  disabled={loading}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-600 mb-2">Metode Pembayaran</label>
+              <select
+                name="metodePembayaran"
+                value={form.metodePembayaran}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none"
+                disabled={loading}
+              >
+                <option value="transfer">Transfer Bank</option>
+                <option value="cod">Cash on Delivery (COD)</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className={`w-full py-4 rounded-xl text-white text-lg font-semibold tracking-wide transition-all shadow-lg ${
+                loading
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-indigo-500 to-indigo-700 hover:scale-105'
+              }`}
               disabled={loading}
             >
-              <option value="transfer">Transfer Bank</option>
-              <option value="cod">Cash on Delivery (COD)</option>
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className={`w-full py-3 rounded-md font-semibold text-white text-lg tracking-wide transition-all duration-300 shadow-md ${
-              loading
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-indigo-600 hover:bg-indigo-700 hover:scale-[1.02]'
-            }`}
-            disabled={loading}
-          >
-            {loading ? 'Memproses Pembayaran...' : '💸 Konfirmasi Pembayaran'}
-          </button>
-        </form>
+              {loading ? 'Memproses Pembayaran...' : 'Konfirmasi & Bayar Sekarang'}
+            </button>
+          </form>
+        </div>
       </div>
     </>
   );

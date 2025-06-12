@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-toastify';
-
 
 const paymentMethods = [
   { id: 'credit', label: 'Kartu Kredit' },
@@ -48,9 +46,7 @@ const Donation = () => {
     let cleanedValue = value;
 
     if (name === 'amount') {
-      // Hapus titik pemisah ribuan
       cleanedValue = value.replace(/\./g, '');
-      // Cegah input non-numerik selain angka
       if (!/^\d*$/.test(cleanedValue)) return;
     }
 
@@ -79,40 +75,35 @@ const Donation = () => {
     setDonors((prev) => [newDonor, ...prev]);
     setFormData({ name: '', email: '', amount: '', paymentMethod: '' });
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setTimeout(() => setSubmitted(false), 4000);
   };
 
   return (
     <motion.section
       id="donation"
-      className="max-w-4xl mx-auto p-8 bg-gradient-to-r from-green-100 to-green-50 rounded-xl shadow-xl"
+      className="max-w-3xl mx-auto p-10 bg-white rounded-2xl shadow-2xl"
       aria-label="Form Donasi ResQMeal"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <motion.h2
-        className="text-4xl font-extrabold mb-8 text-center text-green-700 drop-shadow-md"
-        initial={{ scale: 0.8 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.2 }}
-      >
+      <h2 className="text-4xl font-extrabold mb-8 text-center text-green-700 drop-shadow-md">
         Donasi untuk <span className="text-green-900">ResQMeal</span>
-      </motion.h2>
+      </h2>
+
+      <p className="text-center mb-8 text-gray-600 text-lg">
+        Dukungan Anda membantu kami menyediakan makanan sehat dan bergizi.
+      </p>
 
       <form onSubmit={handleSubmit} noValidate className="space-y-6">
-        <p className="text-center text-gray-600 mb-6">
-          Dukungan Anda membantu kami menyediakan makanan sehat dan bergizi.
-        </p>
-
-        {['name', 'email', 'amount'].map((field) => (
+        {['name', 'email', 'amount'].map((field, idx) => (
           <motion.div
             key={field}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 * idx }}
           >
-            <label htmlFor={field} className="block text-gray-700 font-medium mb-1">
+            <label htmlFor={field} className="block text-gray-800 font-semibold mb-2 text-lg">
               {field === 'name' && 'Nama Lengkap'}
               {field === 'email' && 'Email'}
               {field === 'amount' && 'Jumlah Donasi (Rp)'}
@@ -124,8 +115,8 @@ const Donation = () => {
               type={field === 'email' ? 'email' : 'text'}
               value={formData[field]}
               onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition-all ${
-                errors[field] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-indigo-400'
+              className={`w-full px-5 py-4 border rounded-lg focus:outline-none text-base ${
+                errors[field] ? 'border-red-500' : 'border-gray-300 focus:ring-2 focus:ring-green-400'
               }`}
               inputMode={field === 'amount' ? 'numeric' : undefined}
             />
@@ -136,11 +127,11 @@ const Donation = () => {
         ))}
 
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <label htmlFor="paymentMethod" className="block text-gray-700 font-medium mb-1">
+          <label htmlFor="paymentMethod" className="block text-gray-800 font-semibold mb-2 text-lg">
             Metode Pembayaran<span className="text-red-600">*</span>
           </label>
           <select
@@ -148,8 +139,8 @@ const Donation = () => {
             name="paymentMethod"
             value={formData.paymentMethod}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 transition-all ${
-              errors.paymentMethod ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-indigo-400'
+            className={`w-full px-5 py-4 border rounded-lg focus:outline-none text-base ${
+              errors.paymentMethod ? 'border-red-500' : 'border-gray-300 focus:ring-2 focus:ring-green-400'
             }`}
           >
             <option value="">-- Pilih Metode Pembayaran --</option>
@@ -164,8 +155,10 @@ const Donation = () => {
 
         <motion.button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-all"
+          className="w-full bg-green-600 text-white font-bold py-4 rounded-lg shadow-md hover:bg-green-700 focus:outline-none text-lg"
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 15 }}
         >
           Donasi Sekarang
         </motion.button>
@@ -202,7 +195,7 @@ const Donation = () => {
           {donors.map(({ id, name, amount, method }) => (
             <motion.li
               key={id}
-              className="flex justify-between bg-gray-100 p-4 rounded-md shadow-sm"
+              className="flex justify-between bg-gray-50 p-4 rounded-lg shadow-sm"
               aria-label={`Donatur ${name} memberikan donasi sebesar Rp${amount} melalui ${method}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}

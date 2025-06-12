@@ -100,60 +100,33 @@ const Home = () => {
 
   // Statistik Impact
   const statsRef = useRef(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const [stats, setStats] = useState({
-    makanan: 0,
-    mitra: 0,
-    komunitas: 0,
-    donasi: 0,
-  });
+const [trigger, setTrigger] = useState(0); // ganti trigger pakai counter
 
-  const finalStats = {
-    makanan: 12500,
-    mitra: 340,
-    komunitas: 150,
-    donasi: 9800,
+const finalStats = {
+  makanan: 12500,
+  mitra: 340,
+  komunitas: 150,
+  donasi: 9800,
+};
+
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setTrigger(prev => prev + 1); // setiap masuk viewport, increment trigger
+      }
+    },
+    { threshold: 0.5 }
+  );
+
+  if (statsRef.current) {
+    observer.observe(statsRef.current);
+  }
+
+  return () => {
+    if (statsRef.current) observer.unobserve(statsRef.current);
   };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (statsRef.current) {
-      observer.observe(statsRef.current);
-    }
-
-    return () => {
-      if (statsRef.current) observer.unobserve(statsRef.current);
-    };
-  }, [hasAnimated]);
-
-  useEffect(() => {
-    if (hasAnimated) {
-      const duration = 1500;
-      const fps = 60;
-      const totalFrames = Math.round((duration / 1000) * fps);
-      let frame = 0;
-
-      const interval = setInterval(() => {
-        frame++;
-        setStats({
-          makanan: Math.round((finalStats.makanan * frame) / totalFrames),
-          mitra: Math.round((finalStats.mitra * frame) / totalFrames),
-          komunitas: Math.round((finalStats.komunitas * frame) / totalFrames),
-          donasi: Math.round((finalStats.donasi * frame) / totalFrames),
-        });
-
-        if (frame === totalFrames) clearInterval(interval);
-      }, duration / totalFrames);
-    }
-  }, [hasAnimated]);
+}, []);
 
   
   // Di bagian atas file Home.jsx
@@ -651,6 +624,8 @@ const handleScrollToProduk = () => {
     </div>
   </div>
 </section>
+
+
 {/* Statistik Impact */}
 <section className="bg-green-50 py-20 px-6 md:px-20">
   <motion.div
@@ -673,19 +648,18 @@ const handleScrollToProduk = () => {
     ref={statsRef}
   >
     {[
-      { label: "Makanan Terselamatkan (kg)", value: stats.makanan },
-      { label: "Mitra UMKM", value: stats.mitra },
-      { label: "Komunitas Terbantu", value: stats.komunitas },
-      { label: "Paket Donasi Tersalurkan", value: stats.donasi },
+      { label: "Makanan Terselamatkan (kg)", value: finalStats.makanan },
+      { label: "Mitra UMKM", value: finalStats.mitra },
+      { label: "Komunitas Terbantu", value: finalStats.komunitas },
+      { label: "Paket Donasi Tersalurkan", value: finalStats.donasi },
     ].map((item, i) => (
       <div key={i} className="bg-white p-6 rounded-xl shadow-md">
         <h3 className="text-3xl font-bold text-green-700">
           <CountUp
+            key={trigger + i} // trigger sebagai key agar reset animasi
             end={item.value}
             duration={2}
             separator=","
-            enableScrollSpy={true}
-            scrollSpyOnce={false}
           />
         </h3>
         <p className="text-green-800 mt-2">{item.label}</p>
@@ -695,40 +669,64 @@ const handleScrollToProduk = () => {
 </section>
 
         {/* FAQ */}
-        <section className="py-20 px-6 md:px-20 bg-white max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-green-800 text-center mb-12">
-            Pertanyaan Umum (FAQ)
-          </h2>
-          <div className="space-y-6">
-            {[
-              {
-                question: "Bagaimana cara bergabung sebagai mitra?",
-                answer:
-                  "Anda dapat mendaftar melalui halaman pendaftaran mitra di aplikasi kami dan mengikuti proses verifikasi.",
-              },
-              {
-                question: "Apakah makanan yang didonasikan aman dikonsumsi?",
-                answer:
-                  "Ya, kami melakukan proses sortir ketat untuk memastikan makanan layak konsumsi dan aman sebelum distribusi.",
-              },
-              {
-                question: "Bagaimana cara mengajukan donasi makanan?",
-                answer:
-                  "Anda dapat menggunakan fitur donasi makanan di aplikasi atau menghubungi komunitas lokal yang bekerja sama dengan kami.",
-              },
-            ].map((faq, i) => (
-              <details
-                key={i}
-                className="border border-green-200 rounded-lg p-4 hover:shadow-md transition"
-              >
-                <summary className="font-semibold text-green-700 cursor-pointer">
-                  {faq.question}
-                </summary>
-                <p className="mt-2 text-gray-700">{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-        </section>
+       <section className="py-20 px-6 md:px-20 bg-white max-w-4xl mx-auto">
+  <motion.h2 
+    className="text-3xl font-bold text-green-800 text-center mb-12"
+    initial={{ opacity: 0, y: -20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+  >
+    Pertanyaan Umum (FAQ)
+  </motion.h2>
+  <div className="space-y-6">
+    {[
+      {
+        question: "Apa itu ResQMeal?",
+        answer:
+          "ResQMeal adalah platform jual beli makanan surplus yang masih layak konsumsi dengan harga lebih terjangkau. Kami juga memiliki food hub di berbagai daerah untuk mengelola, menyortir, dan mendistribusikan makanan surplus agar tidak terbuang sia-sia.",
+      },
+      {
+  question: "Bagaimana cara membeli makanan di ResQMeal?",
+  answer:
+    "Anda dapat langsung membeli makanan surplus secara online melalui website ResQMeal di menu Marketplace, atau datang langsung ke food hub terdekat untuk pembelian secara offline. Kedua opsi memudahkan Anda mendapatkan makanan berkualitas dengan harga lebih hemat.",
+},
+
+      {
+        question: "Siapa saja yang bisa menjual makanan di ResQMeal?",
+        answer:
+          "Semua bisnis F&B, seperti restoran, kafe, hotel, bakery, supermarket, katering, hingga individu yang memiliki makanan surplus dalam jumlah besar dapat mendaftar sebagai mitra penjual.",
+      },
+      {
+        question: "Bagaimana keamanan makanan yang dijual di ResQMeal?",
+        answer:
+          "Semua makanan yang dijual melalui ResQMeal telah melalui proses sortir dan quality check oleh tim food hub kami untuk memastikan tetap layak konsumsi, aman, dan sesuai standar kesehatan pangan.",
+      },
+      {
+        question: "Apa yang terjadi dengan makanan yang benar-benar tidak layak konsumsi?",
+        answer:
+          "Makanan yang tidak layak konsumsi tidak dibuang begitu saja. Kami mengolahnya menjadi pupuk organik sebagai bagian dari komitmen ResQMeal terhadap zero food waste dan keberlanjutan lingkungan.",
+      },
+      {
+        question: "Apakah ResQMeal hanya fokus pada donasi?",
+        answer:
+          "Donasi hanyalah sebagian kecil dari ekosistem kami. Fokus utama ResQMeal adalah menyelamatkan makanan surplus melalui mekanisme jual-beli yang berkelanjutan, sekaligus mendukung masyarakat berpenghasilan rendah mendapatkan akses makanan berkualitas dengan harga lebih murah.",
+      },
+    ].map((faq, i) => (
+      <motion.details
+        key={i}
+        className="border border-green-200 rounded-lg p-4 hover:shadow-md transition"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: i * 0.2 }}
+      >
+        <summary className="font-semibold text-green-700 cursor-pointer">
+          {faq.question}
+        </summary>
+        <p className="mt-2 text-gray-700">{faq.answer}</p>
+      </motion.details>
+    ))}
+  </div>
+</section>
       </main>
     </div>
   );
