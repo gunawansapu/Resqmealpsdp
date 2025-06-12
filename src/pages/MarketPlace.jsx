@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -26,22 +26,41 @@ const productsData = [
   { id: 7, name: 'Risol', category: 'Makanan', price: 5000, description: 'Risol mayo, sayur dan rebung enak murah.', imageUrl: 'https://www.masakapahariini.com/wp-content/uploads/2023/06/risoles-ragout.jpeg' },
   { id: 8, name: 'Sate Ayam', category: 'Makanan', price: 10000, description: 'Sate ayam enak lezat murah berkualitas.', imageUrl: 'https://www.dapurkobe.co.id/wp-content/uploads/sate-ayam.jpg' },
   { id: 9, name: 'Ketoprak', category: 'Makanan', price: 8000, description: 'Ketoprak enak dengan bumbu kacang.', imageUrl: 'https://asset.kompas.com/crops/H84-oywnJbx-F-88tV7RV9xbi4E=/0x0:739x493/1200x800/data/photo/2020/01/29/5e318845429db.jpg' },
-  { id: 9, name: 'Dimsum', category: 'Makanan', price: 4000, description: 'Dimsum enak lembut daging ayam.', imageUrl: 'https://cdn.idntimes.com/content-images/community/2024/06/img-20240605-192130-2b64a83f842f8dac9ad37a9c9fa77858.jpg' },
+  { id: 10, name: 'Dimsum', category: 'Makanan', price: 4000, description: 'Dimsum enak lembut daging ayam.', imageUrl: 'https://cdn.idntimes.com/content-images/community/2024/06/img-20240605-192130-2b64a83f842f8dac9ad37a9c9fa77858.jpg' },
 ];
 
 const categories = ['Semua', 'Makanan', 'Minuman', 'Suplemen'];
 const itemsPerPage = 6;
 
 const MarketPlace = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Semua');
-  const [sortPrice, setSortPrice] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  // Ambil state dari URL
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'Semua');
+  const [sortPrice, setSortPrice] = useState(searchParams.get('sort') || '');
+  const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get('page') || '1'));
 
   useEffect(() => {
     AOS.init({ duration: 700, once: true });
   }, []);
+
+  // Scroll ke atas setiap page atau filter berubah
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage, searchTerm, selectedCategory, sortPrice]);
+
+  // Update URL params setiap state berubah
+  useEffect(() => {
+    const params = {
+      search: searchTerm,
+      category: selectedCategory,
+      sort: sortPrice,
+      page: currentPage
+    };
+    setSearchParams(params);
+  }, [searchTerm, selectedCategory, sortPrice, currentPage, setSearchParams]);
 
   const filteredProducts = useMemo(() => {
     let filtered = [...productsData];
